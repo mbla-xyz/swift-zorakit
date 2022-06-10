@@ -1,0 +1,4 @@
+scalars:
+  Date: DateTime
+  datetime: DateTime
+  JSONScalar: GenericScalar
