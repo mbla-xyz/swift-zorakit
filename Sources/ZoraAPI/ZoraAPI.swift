@@ -1,9 +1,6 @@
 import Foundation
 import Apollo
 
-// TODO: There's kinda two different ways tokens may come back, and that sucks.
-// Both tokensquery and tokenquery. Needs to map over to a root ZoraNFT.
-
 public class ZoraAPI {
   public static let shared = ZoraAPI()
   public var endpoint = "https://api.zora.co/graphql"
@@ -14,10 +11,10 @@ public class ZoraAPI {
     
   }
   
-  func collections() async throws -> [NFTCollection]? {
+  public func collections() async throws -> [NFTCollection]? {
     return try await withCheckedThrowingContinuation { continuation in
-      let query = CollectionsQuery(networks: [network], where: .init(collectionAddresses: []), pagination: .init(limit: 10), sort: .init(sortKey: .created, sortDirection: .asc), includeFullDetails: false)
-     
+      let query = CollectionsQuery(networks: [network], where: .init(collectionAddresses: []), pagination: .init(limit: 100), sort: .init(sortKey: .created, sortDirection: .asc), includeFullDetails: false)
+      
       apollo.fetch(query: query) { result in
         switch result {
           case .success(let collectionData):
@@ -30,9 +27,9 @@ public class ZoraAPI {
   }
   
   
-  func tokens(query: TokensQueryInput?) async throws -> [NFTToken]? {
+  public func tokens(query: TokensQueryInput?) async throws -> [NFTToken]? {
     return try await withCheckedThrowingContinuation { continuation in
-      let gqlQuery = TokensQuery(networks: [network], where: query, pagination: .init(limit: 10), sort: .init(sortKey: .minted, sortDirection: .asc), includeFullDetails: false, includeSalesHistory: false)
+      let gqlQuery = TokensQuery(networks: [network], where: query, pagination: .init(limit: 100), sort: .init(sortKey: .minted, sortDirection: .asc), includeFullDetails: false, includeSalesHistory: false)
       
       apollo.fetch(query: gqlQuery) { result in
         switch result {
@@ -45,7 +42,7 @@ public class ZoraAPI {
     }
   }
   
-  func tokens(_ input: NFTTokensInput) async throws -> [NFTToken]? {
+  public func tokens(_ input: NFTTokensInput) async throws -> [NFTToken]? {
     switch input {
       case .collection(let collection):
         return try await tokens(query: .init(collectionAddresses: [collection.address]))
@@ -92,7 +89,7 @@ public class ZoraAPI {
 }
 
 public extension ZoraAPI {
-  enum NFTTokensInput {
+  public enum NFTTokensInput {
     case owner(String)
     case collection(NFTCollection)
   }
