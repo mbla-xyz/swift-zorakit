@@ -12,8 +12,14 @@ struct ContentView: View {
     var body: some View {
         VStack {
           Text("Token")
-          NFTTokenReader(address: "0xa406489360A47Af2C74fc1004316A64e469646A5", id: "8941") { token in
-            NFTCard(token)
+          NFTCollectionReader(.owner("leeadkins.eth")) { tokens in
+            List(tokens) { token in
+              HStack {
+                
+                NFTImage(token).frame(width: 50, height: 50)
+                Text(token.name ?? "")
+              }
+            }
           }
         }
     }

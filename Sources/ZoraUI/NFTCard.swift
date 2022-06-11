@@ -7,6 +7,34 @@
 
 import SwiftUI
 import ZoraAPI
+import SVGView
+
+public struct NFTImage: View {
+  let token: NFTToken
+  
+  public init(_ token: NFTToken) {
+    self.token = token
+  }
+  
+  public var body: some View {
+    if let image = token.image {
+      if image.isSVG {
+        SVGView(data: token.image!.url.data(using: .utf8)!)
+      } else {
+        AsyncImage(url: URL(string: image.originalUrl)) { loaded in
+          loaded.resizable()
+            .scaledToFill()
+        } placeholder: {
+          EmptyView()
+        }
+      }
+    } else {
+      EmptyView()
+    }
+  }
+}
+
+
 
 public struct NFTCard: View {
   public var token: NFTToken
