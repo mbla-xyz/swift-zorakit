@@ -1,4 +1,4 @@
 scalars:
   Date: DateTime
   datetime: DateTime
-  JSONScalar: GenericScalar
+  JSONScalar: String
