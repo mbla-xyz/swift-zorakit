@@ -6,14 +6,15 @@ import PackageDescription
 let package = Package(
     name: "ZoraAPI",
     platforms: [
-      .macOS(.v10_15),
-      .iOS(.v15)
+      .macOS(.v12),
+      .iOS(.v15),
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "ZoraAPI",
             targets: ["ZoraAPI"]),
+        .library(name: "ZoraUI", targets: ["ZoraUI"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -23,11 +24,12 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .target(
-            name: "ZoraAPI",
-            dependencies: [.product(name: "Apollo", package: "apollo-ios")]),
-        .testTarget(
-            name: "ZoraTests",
-            dependencies: ["ZoraAPI"]),
+      .target(name: "ZoraUI", dependencies: ["ZoraAPI"]),
+      .target(
+          name: "ZoraAPI",
+          dependencies: [.product(name: "Apollo", package: "apollo-ios")]),
+      .testTarget(
+          name: "ZoraTests",
+          dependencies: ["ZoraAPI"]),
     ]
 )
