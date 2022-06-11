@@ -14,6 +14,7 @@ public struct NFTToken: Codable, Identifiable {
     public var url: String
     public var mimeType: String
     public var size: String
+    public var originalUrl: String
     
     public var isSVG: Bool {
       return mimeType.contains("svg")
@@ -44,8 +45,9 @@ public struct NFTToken: Codable, Identifiable {
     self.tokenUrlMimeType = tokenData.tokenUrlMimeType
     if let url = tokenData.image?.url,
        let size = tokenData.image?.size,
-       let mimeType = tokenData.image?.mimeType {
-      self.image = Image(url: url, mimeType: mimeType, size: size)
+       let mimeType = tokenData.image?.mimeType,
+       let originalUrl = tokenData.image?.mediaEncoding?.asImageEncodingTypes?.original {
+      self.image = Image(url: url, mimeType: mimeType, size: size, originalUrl: originalUrl)
     }
     
   }
