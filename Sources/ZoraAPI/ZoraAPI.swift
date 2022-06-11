@@ -89,7 +89,7 @@ public class ZoraAPI {
 }
 
 public extension ZoraAPI {
-  public enum NFTTokensInput {
+  enum NFTTokensInput {
     case owner(String)
     case collection(NFTCollection)
   }

@@ -46,7 +46,7 @@ public struct NFTToken: Codable, Identifiable {
     if let url = tokenData.image?.url,
        let size = tokenData.image?.size,
        let mimeType = tokenData.image?.mimeType,
-       let originalUrl = tokenData.image?.mediaEncoding?.asImageEncodingTypes?.original {
+       let originalUrl = tokenData.image?.mediaEncoding?.asImageEncodingTypes?.thumbnail {
       self.image = Image(url: url, mimeType: mimeType, size: size, originalUrl: originalUrl)
     }
     
@@ -63,8 +63,9 @@ public struct NFTToken: Codable, Identifiable {
     self.tokenUrlMimeType = tokenNodeData.tokenUrlMimeType
     if let url = tokenNodeData.image?.url,
        let size = tokenNodeData.image?.size,
-       let mimeType = tokenNodeData.image?.mimeType {
-      self.image = Image(url: url, mimeType: mimeType, size: size)
+       let mimeType = tokenNodeData.image?.mimeType,
+       let originalUrl = tokenNodeData.image?.mediaEncoding?.asImageEncodingTypes?.thumbnail {
+      self.image = Image(url: url, mimeType: mimeType, size: size, originalUrl: originalUrl)
     }
   }
 }
