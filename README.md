@@ -24,8 +24,6 @@ Add this git repo as a swift package in Xcode. It's not published yet, so just s
 
 Import `ZoraAPI` if you just want to make API calls. We're scoping out helpers and abstractions to make it friendlier, but you also can also build your own calls directly with Apollo.  
 
-Known Issue: Apollo doesn't like decoding metadata. That's kind of a big thing. We're working on it.
-
 ## Running the example
 
 - Open the ZoraKit.xcworkspace.
@@ -43,5 +41,6 @@ Known Issue: Apollo doesn't like decoding metadata. That's kind of a big thing. 
 - More helpers to build UIKit and SwiftUI apps with ZoraUI
 - More built-in components for common NFT tasks.
 - Actual SVG support.
+- More support for Zora NFTs and the assorted `content`
 
 
