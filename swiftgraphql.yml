@@ -1,4 +1,0 @@
-scalars:
-  Date: DateTime
-  datetime: DateTime
-  JSONScalar: String
