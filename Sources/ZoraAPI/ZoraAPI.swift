@@ -1,6 +1,68 @@
 import Foundation
 import Apollo
 
+public typealias datetime = String
+public typealias Date = String
+
+public enum JSONScalar {
+  case dictionary([String: Any])
+  case array([Any])
+}
+
+extension JSONScalar: JSONDecodable {
+  public init(jsonValue value: JSONValue) throws {
+    if let dict = value as? [String: Any] {
+      self = .dictionary(dict)
+    } else if let array = value as? [Any] {
+      self = .array(array)
+    } else {
+      throw JSONDecodingError.couldNotConvert(value: value, to: JSONScalar.self)
+    }
+  }
+}
+
+@propertyWrapper
+public struct EquatableNoop<Value>: Equatable {
+  public var wrappedValue: Value
+  
+  public init(wrappedValue value: Value) {
+    self.wrappedValue = value
+  }
+  
+  public static func == (lhs: EquatableNoop<Value>, rhs: EquatableNoop<Value>) -> Bool {
+    true
+  }
+}
+
+@propertyWrapper
+public struct HashableNoop<Value: Equatable>: Hashable {
+  public var wrappedValue: Value
+  
+  public init(wrappedValue value: Value) {
+    self.wrappedValue = value
+  }
+  
+  public func hash(into hasher: inout Hasher) {}
+}
+
+@propertyWrapper
+public struct CodableNoop<Value> {
+  public var wrappedValue: Value?
+  
+  public init(wrappedValue: Value?) {
+    self.wrappedValue = wrappedValue
+  }
+  
+}
+extension CodableNoop: Codable {
+  public func encode(to encoder: Encoder) throws {
+    // Skip encoding the wrapped value.
+  }
+  public init(from decoder: Decoder) throws {
+    // The wrapped value is simply initialised to nil when decoded.
+    self.wrappedValue = nil
+  }
+}
 
 // pagination
 // market info1
@@ -20,11 +82,6 @@ import Apollo
 //    do a bit of a DSL for nicer query writing with ResultBuilders.
 // Leaning towards 2, but for hackathon purposes, we're going to leave it
 // alone, not get nerd sniped, and just clean it up early this week.
-//
-// Okay, I'm actually going to try to hack this together real quick.
-// Primarily because Apollo is choking on the metadata decode, which is necessary
-// when you ask for full details because it's bundled with attributes.
-// And this is probably less brittle.
 public protocol Query {
   associatedtype Response: Decodable
   var body: String { get }
@@ -77,7 +134,7 @@ public class ZoraAPI {
   
   
   public func tokens(query: TokensQueryInput?) async throws -> [NFT]? {
-    let gqlQuery = TokensQuery(networks: [network], where: query, pagination: .init(limit: 32), sort: .init(sortKey: .minted, sortDirection: .asc), includeFullDetails: false, includeSalesHistory: false)
+    let gqlQuery = TokensQuery(networks: [network], where: query, pagination: .init(limit: 32), sort: .init(sortKey: .minted, sortDirection: .asc), includeFullDetails: true, includeSalesHistory: false)
     let result = try await perform(query: gqlQuery)
     return result?.tokens.nodes.map { NFT(from: $0.token) }
   }
@@ -94,7 +151,7 @@ public class ZoraAPI {
   }
   
   public func token(address: String, id: String) async throws -> NFT? {
-    let query = TokenQuery(network: network, token: .init(address: address, tokenId: id), includeFullDetails: false)
+    let query = TokenQuery(network: network, token: .init(address: address, tokenId: id), includeFullDetails: true)
     let result = try await perform(query: query)
     if let tokenData = result?.token?.token {
       return NFT(from: tokenData)

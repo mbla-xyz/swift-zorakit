@@ -18,6 +18,15 @@
           "revision": "4d543d811ee644fa4cc4bfa0be996b4dd6ba0f54",
           "version": "0.13.3"
         }
+      },
+      {
+        "package": "SVGView",
+        "repositoryURL": "https://github.com/exyte/SVGView",
+        "state": {
+          "branch": null,
+          "revision": "1f0011ff3c745b4ab785997972ad4c52ce7d32f9",
+          "version": "1.0.3"
+        }
       }
     ]
   },

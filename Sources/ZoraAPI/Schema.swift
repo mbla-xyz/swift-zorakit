@@ -2483,7 +2483,7 @@ public final class EventsQuery: GraphQLQuery {
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-              GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+              GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
               GraphQLField("transactionHash", type: .scalar(String.self)),
               GraphQLField("logIndex", type: .scalar(Int.self)),
             ]
@@ -2495,7 +2495,7 @@ public final class EventsQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+          public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
             self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
           }
 
@@ -2517,9 +2517,9 @@ public final class EventsQuery: GraphQLQuery {
             }
           }
 
-          public var blockTimestamp: String {
+          public var blockTimestamp: Date {
             get {
-              return resultMap["blockTimestamp"]! as! String
+              return resultMap["blockTimestamp"]! as! Date
             }
             set {
               resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -9446,7 +9446,7 @@ public final class MarketsQuery: GraphQLQuery {
               GraphQLField("tokenContract", type: .object(TokenContract.selections)),
               GraphQLField("mintInfo", type: .object(MintInfo.selections)),
               GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
-              GraphQLField("lastRefreshTime", type: .scalar(String.self)),
+              GraphQLField("lastRefreshTime", type: .scalar(datetime.self)),
               GraphQLField("owner", type: .scalar(String.self)),
               GraphQLField("name", type: .scalar(String.self)),
               GraphQLField("description", type: .scalar(String.self)),
@@ -9454,7 +9454,7 @@ public final class MarketsQuery: GraphQLQuery {
               GraphQLField("content", type: .object(Content.selections)),
               GraphQLBooleanCondition(variableName: "includeFullDetails", inverted: false, selections: [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                GraphQLField("metadata", type: .scalar(String.self)),
+                GraphQLField("metadata", type: .scalar(JSONScalar.self)),
                 GraphQLField("tokenUrl", type: .scalar(String.self)),
                 GraphQLField("tokenUrlMimeType", type: .scalar(String.self)),
                 GraphQLField("attributes", type: .list(.nonNull(.object(Attribute.selections)))),
@@ -9468,7 +9468,7 @@ public final class MarketsQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: String? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: String? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
+          public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: datetime? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: JSONScalar? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
             self.init(unsafeResultMap: ["__typename": "Token", "tokenId": tokenId, "tokenContract": tokenContract.flatMap { (value: TokenContract) -> ResultMap in value.resultMap }, "mintInfo": mintInfo.flatMap { (value: MintInfo) -> ResultMap in value.resultMap }, "collectionAddress": collectionAddress, "lastRefreshTime": lastRefreshTime, "owner": owner, "name": name, "description": description, "image": image.flatMap { (value: Image) -> ResultMap in value.resultMap }, "content": content.flatMap { (value: Content) -> ResultMap in value.resultMap }, "metadata": metadata, "tokenUrl": tokenUrl, "tokenUrlMimeType": tokenUrlMimeType, "attributes": attributes.flatMap { (value: [Attribute]) -> [ResultMap] in value.map { (value: Attribute) -> ResultMap in value.resultMap } }])
           }
 
@@ -9517,9 +9517,9 @@ public final class MarketsQuery: GraphQLQuery {
             }
           }
 
-          public var lastRefreshTime: String? {
+          public var lastRefreshTime: datetime? {
             get {
-              return resultMap["lastRefreshTime"] as? String
+              return resultMap["lastRefreshTime"] as? datetime
             }
             set {
               resultMap.updateValue(newValue, forKey: "lastRefreshTime")
@@ -9571,9 +9571,9 @@ public final class MarketsQuery: GraphQLQuery {
             }
           }
 
-          public var metadata: String? {
+          public var metadata: JSONScalar? {
             get {
-              return resultMap["metadata"] as? String
+              return resultMap["metadata"] as? JSONScalar
             }
             set {
               resultMap.updateValue(newValue, forKey: "metadata")
@@ -10173,7 +10173,7 @@ public final class MarketsQuery: GraphQLQuery {
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                  GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                  GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                   GraphQLField("transactionHash", type: .scalar(String.self)),
                   GraphQLField("logIndex", type: .scalar(Int.self)),
                 ]
@@ -10185,7 +10185,7 @@ public final class MarketsQuery: GraphQLQuery {
                 self.resultMap = unsafeResultMap
               }
 
-              public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+              public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
                 self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
               }
 
@@ -10207,9 +10207,9 @@ public final class MarketsQuery: GraphQLQuery {
                 }
               }
 
-              public var blockTimestamp: String {
+              public var blockTimestamp: Date {
                 get {
-                  return resultMap["blockTimestamp"]! as! String
+                  return resultMap["blockTimestamp"]! as! Date
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -11331,7 +11331,7 @@ public final class MarketsQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                 GraphQLField("transactionHash", type: .scalar(String.self)),
                 GraphQLField("logIndex", type: .scalar(Int.self)),
               ]
@@ -11343,7 +11343,7 @@ public final class MarketsQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+            public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
               self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
             }
 
@@ -11365,9 +11365,9 @@ public final class MarketsQuery: GraphQLQuery {
               }
             }
 
-            public var blockTimestamp: String {
+            public var blockTimestamp: Date {
               get {
-                return resultMap["blockTimestamp"]! as! String
+                return resultMap["blockTimestamp"]! as! Date
               }
               set {
                 resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -11832,7 +11832,7 @@ public final class MarketsQuery: GraphQLQuery {
               return Property(unsafeResultMap: ["__typename": "V1BidShare"])
             }
 
-            public static func makeV2Auction(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
+            public static func makeV2Auction(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
               return Property(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: AsV2Auction.HighestBidPrice) -> ResultMap in value.resultMap }])
             }
 
@@ -11947,7 +11947,7 @@ public final class MarketsQuery: GraphQLQuery {
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                  GraphQLField("firstBidTime", type: .scalar(String.self)),
+                  GraphQLField("firstBidTime", type: .scalar(datetime.self)),
                   GraphQLField("highestBidder", type: .scalar(String.self)),
                   GraphQLField("curator", type: .nonNull(.scalar(String.self))),
                   GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
@@ -11955,7 +11955,7 @@ public final class MarketsQuery: GraphQLQuery {
                   GraphQLField("tokenId", type: .nonNull(.scalar(String.self))),
                   GraphQLField("auctionCurrency", type: .nonNull(.scalar(String.self))),
                   GraphQLField("duration", type: .nonNull(.scalar(String.self))),
-                  GraphQLField("estimatedExpirationTime", type: .scalar(String.self)),
+                  GraphQLField("estimatedExpirationTime", type: .scalar(datetime.self)),
                   GraphQLField("v2AuctionStatus", type: .nonNull(.scalar(V2AuctionStatus.self))),
                   GraphQLField("tokenOwner", type: .nonNull(.scalar(String.self))),
                   GraphQLField("address", type: .nonNull(.scalar(String.self))),
@@ -11972,7 +11972,7 @@ public final class MarketsQuery: GraphQLQuery {
                 self.resultMap = unsafeResultMap
               }
 
-              public init(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
+              public init(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
                 self.init(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: HighestBidPrice) -> ResultMap in value.resultMap }])
               }
 
@@ -11985,9 +11985,9 @@ public final class MarketsQuery: GraphQLQuery {
                 }
               }
 
-              public var firstBidTime: String? {
+              public var firstBidTime: datetime? {
                 get {
-                  return resultMap["firstBidTime"] as? String
+                  return resultMap["firstBidTime"] as? datetime
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "firstBidTime")
@@ -12057,9 +12057,9 @@ public final class MarketsQuery: GraphQLQuery {
                 }
               }
 
-              public var estimatedExpirationTime: String? {
+              public var estimatedExpirationTime: datetime? {
                 get {
-                  return resultMap["estimatedExpirationTime"] as? String
+                  return resultMap["estimatedExpirationTime"] as? datetime
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "estimatedExpirationTime")
@@ -14676,7 +14676,7 @@ public final class MintsQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                 GraphQLField("transactionHash", type: .scalar(String.self)),
                 GraphQLField("logIndex", type: .scalar(Int.self)),
               ]
@@ -14688,7 +14688,7 @@ public final class MintsQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+            public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
               self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
             }
 
@@ -14710,9 +14710,9 @@ public final class MintsQuery: GraphQLQuery {
               }
             }
 
-            public var blockTimestamp: String {
+            public var blockTimestamp: Date {
               get {
-                return resultMap["blockTimestamp"]! as! String
+                return resultMap["blockTimestamp"]! as! Date
               }
               set {
                 resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -14776,7 +14776,7 @@ public final class MintsQuery: GraphQLQuery {
               GraphQLField("tokenContract", type: .object(TokenContract.selections)),
               GraphQLField("mintInfo", type: .object(MintInfo.selections)),
               GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
-              GraphQLField("lastRefreshTime", type: .scalar(String.self)),
+              GraphQLField("lastRefreshTime", type: .scalar(datetime.self)),
               GraphQLField("owner", type: .scalar(String.self)),
               GraphQLField("name", type: .scalar(String.self)),
               GraphQLField("description", type: .scalar(String.self)),
@@ -14784,7 +14784,7 @@ public final class MintsQuery: GraphQLQuery {
               GraphQLField("content", type: .object(Content.selections)),
               GraphQLBooleanCondition(variableName: "includeFullDetails", inverted: false, selections: [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                GraphQLField("metadata", type: .scalar(String.self)),
+                GraphQLField("metadata", type: .scalar(JSONScalar.self)),
                 GraphQLField("tokenUrl", type: .scalar(String.self)),
                 GraphQLField("tokenUrlMimeType", type: .scalar(String.self)),
                 GraphQLField("attributes", type: .list(.nonNull(.object(Attribute.selections)))),
@@ -14798,7 +14798,7 @@ public final class MintsQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: String? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: String? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
+          public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: datetime? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: JSONScalar? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
             self.init(unsafeResultMap: ["__typename": "Token", "tokenId": tokenId, "tokenContract": tokenContract.flatMap { (value: TokenContract) -> ResultMap in value.resultMap }, "mintInfo": mintInfo.flatMap { (value: MintInfo) -> ResultMap in value.resultMap }, "collectionAddress": collectionAddress, "lastRefreshTime": lastRefreshTime, "owner": owner, "name": name, "description": description, "image": image.flatMap { (value: Image) -> ResultMap in value.resultMap }, "content": content.flatMap { (value: Content) -> ResultMap in value.resultMap }, "metadata": metadata, "tokenUrl": tokenUrl, "tokenUrlMimeType": tokenUrlMimeType, "attributes": attributes.flatMap { (value: [Attribute]) -> [ResultMap] in value.map { (value: Attribute) -> ResultMap in value.resultMap } }])
           }
 
@@ -14847,9 +14847,9 @@ public final class MintsQuery: GraphQLQuery {
             }
           }
 
-          public var lastRefreshTime: String? {
+          public var lastRefreshTime: datetime? {
             get {
-              return resultMap["lastRefreshTime"] as? String
+              return resultMap["lastRefreshTime"] as? datetime
             }
             set {
               resultMap.updateValue(newValue, forKey: "lastRefreshTime")
@@ -14901,9 +14901,9 @@ public final class MintsQuery: GraphQLQuery {
             }
           }
 
-          public var metadata: String? {
+          public var metadata: JSONScalar? {
             get {
-              return resultMap["metadata"] as? String
+              return resultMap["metadata"] as? JSONScalar
             }
             set {
               resultMap.updateValue(newValue, forKey: "metadata")
@@ -15503,7 +15503,7 @@ public final class MintsQuery: GraphQLQuery {
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                  GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                  GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                   GraphQLField("transactionHash", type: .scalar(String.self)),
                   GraphQLField("logIndex", type: .scalar(Int.self)),
                 ]
@@ -15515,7 +15515,7 @@ public final class MintsQuery: GraphQLQuery {
                 self.resultMap = unsafeResultMap
               }
 
-              public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+              public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
                 self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
               }
 
@@ -15537,9 +15537,9 @@ public final class MintsQuery: GraphQLQuery {
                 }
               }
 
-              public var blockTimestamp: String {
+              public var blockTimestamp: Date {
                 get {
-                  return resultMap["blockTimestamp"]! as! String
+                  return resultMap["blockTimestamp"]! as! Date
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -16659,7 +16659,7 @@ public final class MintsQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                 GraphQLField("transactionHash", type: .scalar(String.self)),
                 GraphQLField("logIndex", type: .scalar(Int.self)),
               ]
@@ -16671,7 +16671,7 @@ public final class MintsQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+            public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
               self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
             }
 
@@ -16693,9 +16693,9 @@ public final class MintsQuery: GraphQLQuery {
               }
             }
 
-            public var blockTimestamp: String {
+            public var blockTimestamp: Date {
               get {
-                return resultMap["blockTimestamp"]! as! String
+                return resultMap["blockTimestamp"]! as! Date
               }
               set {
                 resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -17160,7 +17160,7 @@ public final class MintsQuery: GraphQLQuery {
               return Property(unsafeResultMap: ["__typename": "V1BidShare"])
             }
 
-            public static func makeV2Auction(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
+            public static func makeV2Auction(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
               return Property(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: AsV2Auction.HighestBidPrice) -> ResultMap in value.resultMap }])
             }
 
@@ -17275,7 +17275,7 @@ public final class MintsQuery: GraphQLQuery {
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                  GraphQLField("firstBidTime", type: .scalar(String.self)),
+                  GraphQLField("firstBidTime", type: .scalar(datetime.self)),
                   GraphQLField("highestBidder", type: .scalar(String.self)),
                   GraphQLField("curator", type: .nonNull(.scalar(String.self))),
                   GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
@@ -17283,7 +17283,7 @@ public final class MintsQuery: GraphQLQuery {
                   GraphQLField("tokenId", type: .nonNull(.scalar(String.self))),
                   GraphQLField("auctionCurrency", type: .nonNull(.scalar(String.self))),
                   GraphQLField("duration", type: .nonNull(.scalar(String.self))),
-                  GraphQLField("estimatedExpirationTime", type: .scalar(String.self)),
+                  GraphQLField("estimatedExpirationTime", type: .scalar(datetime.self)),
                   GraphQLField("v2AuctionStatus", type: .nonNull(.scalar(V2AuctionStatus.self))),
                   GraphQLField("tokenOwner", type: .nonNull(.scalar(String.self))),
                   GraphQLField("address", type: .nonNull(.scalar(String.self))),
@@ -17300,7 +17300,7 @@ public final class MintsQuery: GraphQLQuery {
                 self.resultMap = unsafeResultMap
               }
 
-              public init(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
+              public init(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
                 self.init(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: HighestBidPrice) -> ResultMap in value.resultMap }])
               }
 
@@ -17313,9 +17313,9 @@ public final class MintsQuery: GraphQLQuery {
                 }
               }
 
-              public var firstBidTime: String? {
+              public var firstBidTime: datetime? {
                 get {
-                  return resultMap["firstBidTime"] as? String
+                  return resultMap["firstBidTime"] as? datetime
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "firstBidTime")
@@ -17385,9 +17385,9 @@ public final class MintsQuery: GraphQLQuery {
                 }
               }
 
-              public var estimatedExpirationTime: String? {
+              public var estimatedExpirationTime: datetime? {
                 get {
-                  return resultMap["estimatedExpirationTime"] as? String
+                  return resultMap["estimatedExpirationTime"] as? datetime
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "estimatedExpirationTime")
@@ -20614,7 +20614,7 @@ public final class SalesQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                 GraphQLField("transactionHash", type: .scalar(String.self)),
                 GraphQLField("logIndex", type: .scalar(Int.self)),
               ]
@@ -20626,7 +20626,7 @@ public final class SalesQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+            public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
               self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
             }
 
@@ -20648,9 +20648,9 @@ public final class SalesQuery: GraphQLQuery {
               }
             }
 
-            public var blockTimestamp: String {
+            public var blockTimestamp: Date {
               get {
-                return resultMap["blockTimestamp"]! as! String
+                return resultMap["blockTimestamp"]! as! Date
               }
               set {
                 resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -21026,7 +21026,7 @@ public final class SalesQuery: GraphQLQuery {
               GraphQLField("tokenContract", type: .object(TokenContract.selections)),
               GraphQLField("mintInfo", type: .object(MintInfo.selections)),
               GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
-              GraphQLField("lastRefreshTime", type: .scalar(String.self)),
+              GraphQLField("lastRefreshTime", type: .scalar(datetime.self)),
               GraphQLField("owner", type: .scalar(String.self)),
               GraphQLField("name", type: .scalar(String.self)),
               GraphQLField("description", type: .scalar(String.self)),
@@ -21034,7 +21034,7 @@ public final class SalesQuery: GraphQLQuery {
               GraphQLField("content", type: .object(Content.selections)),
               GraphQLBooleanCondition(variableName: "includeFullDetails", inverted: false, selections: [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                GraphQLField("metadata", type: .scalar(String.self)),
+                GraphQLField("metadata", type: .scalar(JSONScalar.self)),
                 GraphQLField("tokenUrl", type: .scalar(String.self)),
                 GraphQLField("tokenUrlMimeType", type: .scalar(String.self)),
                 GraphQLField("attributes", type: .list(.nonNull(.object(Attribute.selections)))),
@@ -21048,7 +21048,7 @@ public final class SalesQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: String? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: String? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
+          public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: datetime? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: JSONScalar? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
             self.init(unsafeResultMap: ["__typename": "Token", "tokenId": tokenId, "tokenContract": tokenContract.flatMap { (value: TokenContract) -> ResultMap in value.resultMap }, "mintInfo": mintInfo.flatMap { (value: MintInfo) -> ResultMap in value.resultMap }, "collectionAddress": collectionAddress, "lastRefreshTime": lastRefreshTime, "owner": owner, "name": name, "description": description, "image": image.flatMap { (value: Image) -> ResultMap in value.resultMap }, "content": content.flatMap { (value: Content) -> ResultMap in value.resultMap }, "metadata": metadata, "tokenUrl": tokenUrl, "tokenUrlMimeType": tokenUrlMimeType, "attributes": attributes.flatMap { (value: [Attribute]) -> [ResultMap] in value.map { (value: Attribute) -> ResultMap in value.resultMap } }])
           }
 
@@ -21097,9 +21097,9 @@ public final class SalesQuery: GraphQLQuery {
             }
           }
 
-          public var lastRefreshTime: String? {
+          public var lastRefreshTime: datetime? {
             get {
-              return resultMap["lastRefreshTime"] as? String
+              return resultMap["lastRefreshTime"] as? datetime
             }
             set {
               resultMap.updateValue(newValue, forKey: "lastRefreshTime")
@@ -21151,9 +21151,9 @@ public final class SalesQuery: GraphQLQuery {
             }
           }
 
-          public var metadata: String? {
+          public var metadata: JSONScalar? {
             get {
-              return resultMap["metadata"] as? String
+              return resultMap["metadata"] as? JSONScalar
             }
             set {
               resultMap.updateValue(newValue, forKey: "metadata")
@@ -21753,7 +21753,7 @@ public final class SalesQuery: GraphQLQuery {
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                  GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                  GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                   GraphQLField("transactionHash", type: .scalar(String.self)),
                   GraphQLField("logIndex", type: .scalar(Int.self)),
                 ]
@@ -21765,7 +21765,7 @@ public final class SalesQuery: GraphQLQuery {
                 self.resultMap = unsafeResultMap
               }
 
-              public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+              public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
                 self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
               }
 
@@ -21787,9 +21787,9 @@ public final class SalesQuery: GraphQLQuery {
                 }
               }
 
-              public var blockTimestamp: String {
+              public var blockTimestamp: Date {
                 get {
-                  return resultMap["blockTimestamp"]! as! String
+                  return resultMap["blockTimestamp"]! as! Date
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -23251,7 +23251,7 @@ public final class TokensQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                 GraphQLField("transactionHash", type: .scalar(String.self)),
                 GraphQLField("logIndex", type: .scalar(Int.self)),
               ]
@@ -23263,7 +23263,7 @@ public final class TokensQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+            public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
               self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
             }
 
@@ -23285,9 +23285,9 @@ public final class TokensQuery: GraphQLQuery {
               }
             }
 
-            public var blockTimestamp: String {
+            public var blockTimestamp: Date {
               get {
-                return resultMap["blockTimestamp"]! as! String
+                return resultMap["blockTimestamp"]! as! Date
               }
               set {
                 resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -23752,7 +23752,7 @@ public final class TokensQuery: GraphQLQuery {
               return Property(unsafeResultMap: ["__typename": "V1BidShare"])
             }
 
-            public static func makeV2Auction(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
+            public static func makeV2Auction(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
               return Property(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: AsV2Auction.HighestBidPrice) -> ResultMap in value.resultMap }])
             }
 
@@ -23867,7 +23867,7 @@ public final class TokensQuery: GraphQLQuery {
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                  GraphQLField("firstBidTime", type: .scalar(String.self)),
+                  GraphQLField("firstBidTime", type: .scalar(datetime.self)),
                   GraphQLField("highestBidder", type: .scalar(String.self)),
                   GraphQLField("curator", type: .nonNull(.scalar(String.self))),
                   GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
@@ -23875,7 +23875,7 @@ public final class TokensQuery: GraphQLQuery {
                   GraphQLField("tokenId", type: .nonNull(.scalar(String.self))),
                   GraphQLField("auctionCurrency", type: .nonNull(.scalar(String.self))),
                   GraphQLField("duration", type: .nonNull(.scalar(String.self))),
-                  GraphQLField("estimatedExpirationTime", type: .scalar(String.self)),
+                  GraphQLField("estimatedExpirationTime", type: .scalar(datetime.self)),
                   GraphQLField("v2AuctionStatus", type: .nonNull(.scalar(V2AuctionStatus.self))),
                   GraphQLField("tokenOwner", type: .nonNull(.scalar(String.self))),
                   GraphQLField("address", type: .nonNull(.scalar(String.self))),
@@ -23892,7 +23892,7 @@ public final class TokensQuery: GraphQLQuery {
                 self.resultMap = unsafeResultMap
               }
 
-              public init(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
+              public init(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
                 self.init(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: HighestBidPrice) -> ResultMap in value.resultMap }])
               }
 
@@ -23905,9 +23905,9 @@ public final class TokensQuery: GraphQLQuery {
                 }
               }
 
-              public var firstBidTime: String? {
+              public var firstBidTime: datetime? {
                 get {
-                  return resultMap["firstBidTime"] as? String
+                  return resultMap["firstBidTime"] as? datetime
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "firstBidTime")
@@ -23977,9 +23977,9 @@ public final class TokensQuery: GraphQLQuery {
                 }
               }
 
-              public var estimatedExpirationTime: String? {
+              public var estimatedExpirationTime: datetime? {
                 get {
-                  return resultMap["estimatedExpirationTime"] as? String
+                  return resultMap["estimatedExpirationTime"] as? datetime
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "estimatedExpirationTime")
@@ -26204,7 +26204,7 @@ public final class TokensQuery: GraphQLQuery {
               GraphQLField("tokenContract", type: .object(TokenContract.selections)),
               GraphQLField("mintInfo", type: .object(MintInfo.selections)),
               GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
-              GraphQLField("lastRefreshTime", type: .scalar(String.self)),
+              GraphQLField("lastRefreshTime", type: .scalar(datetime.self)),
               GraphQLField("owner", type: .scalar(String.self)),
               GraphQLField("name", type: .scalar(String.self)),
               GraphQLField("description", type: .scalar(String.self)),
@@ -26212,7 +26212,7 @@ public final class TokensQuery: GraphQLQuery {
               GraphQLField("content", type: .object(Content.selections)),
               GraphQLBooleanCondition(variableName: "includeFullDetails", inverted: false, selections: [
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                GraphQLField("metadata", type: .scalar(String.self)),
+                GraphQLField("metadata", type: .scalar(JSONScalar.self)),
                 GraphQLField("tokenUrl", type: .scalar(String.self)),
                 GraphQLField("tokenUrlMimeType", type: .scalar(String.self)),
                 GraphQLField("attributes", type: .list(.nonNull(.object(Attribute.selections)))),
@@ -26226,7 +26226,7 @@ public final class TokensQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: String? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: String? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
+          public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: datetime? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: JSONScalar? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
             self.init(unsafeResultMap: ["__typename": "Token", "tokenId": tokenId, "tokenContract": tokenContract.flatMap { (value: TokenContract) -> ResultMap in value.resultMap }, "mintInfo": mintInfo.flatMap { (value: MintInfo) -> ResultMap in value.resultMap }, "collectionAddress": collectionAddress, "lastRefreshTime": lastRefreshTime, "owner": owner, "name": name, "description": description, "image": image.flatMap { (value: Image) -> ResultMap in value.resultMap }, "content": content.flatMap { (value: Content) -> ResultMap in value.resultMap }, "metadata": metadata, "tokenUrl": tokenUrl, "tokenUrlMimeType": tokenUrlMimeType, "attributes": attributes.flatMap { (value: [Attribute]) -> [ResultMap] in value.map { (value: Attribute) -> ResultMap in value.resultMap } }])
           }
 
@@ -26275,9 +26275,9 @@ public final class TokensQuery: GraphQLQuery {
             }
           }
 
-          public var lastRefreshTime: String? {
+          public var lastRefreshTime: datetime? {
             get {
-              return resultMap["lastRefreshTime"] as? String
+              return resultMap["lastRefreshTime"] as? datetime
             }
             set {
               resultMap.updateValue(newValue, forKey: "lastRefreshTime")
@@ -26329,9 +26329,9 @@ public final class TokensQuery: GraphQLQuery {
             }
           }
 
-          public var metadata: String? {
+          public var metadata: JSONScalar? {
             get {
-              return resultMap["metadata"] as? String
+              return resultMap["metadata"] as? JSONScalar
             }
             set {
               resultMap.updateValue(newValue, forKey: "metadata")
@@ -26931,7 +26931,7 @@ public final class TokensQuery: GraphQLQuery {
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                   GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                  GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                  GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                   GraphQLField("transactionHash", type: .scalar(String.self)),
                   GraphQLField("logIndex", type: .scalar(Int.self)),
                 ]
@@ -26943,7 +26943,7 @@ public final class TokensQuery: GraphQLQuery {
                 self.resultMap = unsafeResultMap
               }
 
-              public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+              public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
                 self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
               }
 
@@ -26965,9 +26965,9 @@ public final class TokensQuery: GraphQLQuery {
                 }
               }
 
-              public var blockTimestamp: String {
+              public var blockTimestamp: Date {
                 get {
-                  return resultMap["blockTimestamp"]! as! String
+                  return resultMap["blockTimestamp"]! as! Date
                 }
                 set {
                   resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -28067,7 +28067,7 @@ public final class TokensQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                 GraphQLField("transactionHash", type: .scalar(String.self)),
                 GraphQLField("logIndex", type: .scalar(Int.self)),
               ]
@@ -28079,7 +28079,7 @@ public final class TokensQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+            public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
               self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
             }
 
@@ -28101,9 +28101,9 @@ public final class TokensQuery: GraphQLQuery {
               }
             }
 
-            public var blockTimestamp: String {
+            public var blockTimestamp: Date {
               get {
-                return resultMap["blockTimestamp"]! as! String
+                return resultMap["blockTimestamp"]! as! Date
               }
               set {
                 resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -28581,7 +28581,7 @@ public final class TokensQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                 GraphQLField("transactionHash", type: .scalar(String.self)),
                 GraphQLField("logIndex", type: .scalar(Int.self)),
               ]
@@ -28593,7 +28593,7 @@ public final class TokensQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+            public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
               self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
             }
 
@@ -28615,9 +28615,9 @@ public final class TokensQuery: GraphQLQuery {
               }
             }
 
-            public var blockTimestamp: String {
+            public var blockTimestamp: Date {
               get {
-                return resultMap["blockTimestamp"]! as! String
+                return resultMap["blockTimestamp"]! as! Date
               }
               set {
                 resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -35476,7 +35476,7 @@ public final class TokenQuery: GraphQLQuery {
             GraphQLField("tokenContract", type: .object(TokenContract.selections)),
             GraphQLField("mintInfo", type: .object(MintInfo.selections)),
             GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
-            GraphQLField("lastRefreshTime", type: .scalar(String.self)),
+            GraphQLField("lastRefreshTime", type: .scalar(datetime.self)),
             GraphQLField("owner", type: .scalar(String.self)),
             GraphQLField("name", type: .scalar(String.self)),
             GraphQLField("description", type: .scalar(String.self)),
@@ -35484,7 +35484,7 @@ public final class TokenQuery: GraphQLQuery {
             GraphQLField("content", type: .object(Content.selections)),
             GraphQLBooleanCondition(variableName: "includeFullDetails", inverted: false, selections: [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-              GraphQLField("metadata", type: .scalar(String.self)),
+              GraphQLField("metadata", type: .scalar(JSONScalar.self)),
               GraphQLField("tokenUrl", type: .scalar(String.self)),
               GraphQLField("tokenUrlMimeType", type: .scalar(String.self)),
               GraphQLField("attributes", type: .list(.nonNull(.object(Attribute.selections)))),
@@ -35498,7 +35498,7 @@ public final class TokenQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: String? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: String? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
+        public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: datetime? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil, metadata: JSONScalar? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
           self.init(unsafeResultMap: ["__typename": "Token", "tokenId": tokenId, "tokenContract": tokenContract.flatMap { (value: TokenContract) -> ResultMap in value.resultMap }, "mintInfo": mintInfo.flatMap { (value: MintInfo) -> ResultMap in value.resultMap }, "collectionAddress": collectionAddress, "lastRefreshTime": lastRefreshTime, "owner": owner, "name": name, "description": description, "image": image.flatMap { (value: Image) -> ResultMap in value.resultMap }, "content": content.flatMap { (value: Content) -> ResultMap in value.resultMap }, "metadata": metadata, "tokenUrl": tokenUrl, "tokenUrlMimeType": tokenUrlMimeType, "attributes": attributes.flatMap { (value: [Attribute]) -> [ResultMap] in value.map { (value: Attribute) -> ResultMap in value.resultMap } }])
         }
 
@@ -35547,9 +35547,9 @@ public final class TokenQuery: GraphQLQuery {
           }
         }
 
-        public var lastRefreshTime: String? {
+        public var lastRefreshTime: datetime? {
           get {
-            return resultMap["lastRefreshTime"] as? String
+            return resultMap["lastRefreshTime"] as? datetime
           }
           set {
             resultMap.updateValue(newValue, forKey: "lastRefreshTime")
@@ -35601,9 +35601,9 @@ public final class TokenQuery: GraphQLQuery {
           }
         }
 
-        public var metadata: String? {
+        public var metadata: JSONScalar? {
           get {
-            return resultMap["metadata"] as? String
+            return resultMap["metadata"] as? JSONScalar
           }
           set {
             resultMap.updateValue(newValue, forKey: "metadata")
@@ -36203,7 +36203,7 @@ public final class TokenQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                 GraphQLField("transactionHash", type: .scalar(String.self)),
                 GraphQLField("logIndex", type: .scalar(Int.self)),
               ]
@@ -36215,7 +36215,7 @@ public final class TokenQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+            public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
               self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
             }
 
@@ -36237,9 +36237,9 @@ public final class TokenQuery: GraphQLQuery {
               }
             }
 
-            public var blockTimestamp: String {
+            public var blockTimestamp: Date {
               get {
-                return resultMap["blockTimestamp"]! as! String
+                return resultMap["blockTimestamp"]! as! Date
               }
               set {
                 resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -37341,7 +37341,7 @@ public final class TokenQuery: GraphQLQuery {
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-              GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+              GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
               GraphQLField("transactionHash", type: .scalar(String.self)),
               GraphQLField("logIndex", type: .scalar(Int.self)),
             ]
@@ -37353,7 +37353,7 @@ public final class TokenQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+          public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
             self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
           }
 
@@ -37375,9 +37375,9 @@ public final class TokenQuery: GraphQLQuery {
             }
           }
 
-          public var blockTimestamp: String {
+          public var blockTimestamp: Date {
             get {
-              return resultMap["blockTimestamp"]! as! String
+              return resultMap["blockTimestamp"]! as! Date
             }
             set {
               resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -37855,7 +37855,7 @@ public final class TokenQuery: GraphQLQuery {
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-              GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+              GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
               GraphQLField("transactionHash", type: .scalar(String.self)),
               GraphQLField("logIndex", type: .scalar(Int.self)),
             ]
@@ -37867,7 +37867,7 @@ public final class TokenQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+          public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
             self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
           }
 
@@ -37889,9 +37889,9 @@ public final class TokenQuery: GraphQLQuery {
             }
           }
 
-          public var blockTimestamp: String {
+          public var blockTimestamp: Date {
             get {
-              return resultMap["blockTimestamp"]! as! String
+              return resultMap["blockTimestamp"]! as! Date
             }
             set {
               resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -44695,7 +44695,7 @@ public final class TokenQuery: GraphQLQuery {
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-              GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+              GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
               GraphQLField("transactionHash", type: .scalar(String.self)),
               GraphQLField("logIndex", type: .scalar(Int.self)),
             ]
@@ -44707,7 +44707,7 @@ public final class TokenQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+          public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
             self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
           }
 
@@ -44729,9 +44729,9 @@ public final class TokenQuery: GraphQLQuery {
             }
           }
 
-          public var blockTimestamp: String {
+          public var blockTimestamp: Date {
             get {
-              return resultMap["blockTimestamp"]! as! String
+              return resultMap["blockTimestamp"]! as! Date
             }
             set {
               resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -45196,7 +45196,7 @@ public final class TokenQuery: GraphQLQuery {
             return Property(unsafeResultMap: ["__typename": "V1BidShare"])
           }
 
-          public static func makeV2Auction(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
+          public static func makeV2Auction(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
             return Property(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: AsV2Auction.HighestBidPrice) -> ResultMap in value.resultMap }])
           }
 
@@ -45311,7 +45311,7 @@ public final class TokenQuery: GraphQLQuery {
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                 GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                GraphQLField("firstBidTime", type: .scalar(String.self)),
+                GraphQLField("firstBidTime", type: .scalar(datetime.self)),
                 GraphQLField("highestBidder", type: .scalar(String.self)),
                 GraphQLField("curator", type: .nonNull(.scalar(String.self))),
                 GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
@@ -45319,7 +45319,7 @@ public final class TokenQuery: GraphQLQuery {
                 GraphQLField("tokenId", type: .nonNull(.scalar(String.self))),
                 GraphQLField("auctionCurrency", type: .nonNull(.scalar(String.self))),
                 GraphQLField("duration", type: .nonNull(.scalar(String.self))),
-                GraphQLField("estimatedExpirationTime", type: .scalar(String.self)),
+                GraphQLField("estimatedExpirationTime", type: .scalar(datetime.self)),
                 GraphQLField("v2AuctionStatus", type: .nonNull(.scalar(V2AuctionStatus.self))),
                 GraphQLField("tokenOwner", type: .nonNull(.scalar(String.self))),
                 GraphQLField("address", type: .nonNull(.scalar(String.self))),
@@ -45336,7 +45336,7 @@ public final class TokenQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
+            public init(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
               self.init(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: HighestBidPrice) -> ResultMap in value.resultMap }])
             }
 
@@ -45349,9 +45349,9 @@ public final class TokenQuery: GraphQLQuery {
               }
             }
 
-            public var firstBidTime: String? {
+            public var firstBidTime: datetime? {
               get {
-                return resultMap["firstBidTime"] as? String
+                return resultMap["firstBidTime"] as? datetime
               }
               set {
                 resultMap.updateValue(newValue, forKey: "firstBidTime")
@@ -45421,9 +45421,9 @@ public final class TokenQuery: GraphQLQuery {
               }
             }
 
-            public var estimatedExpirationTime: String? {
+            public var estimatedExpirationTime: datetime? {
               get {
-                return resultMap["estimatedExpirationTime"] as? String
+                return resultMap["estimatedExpirationTime"] as? datetime
               }
               set {
                 resultMap.updateValue(newValue, forKey: "estimatedExpirationTime")
@@ -49154,7 +49154,7 @@ public final class SearchQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public static func makeToken(tokenId: String, tokenContract: AsToken.TokenContract? = nil, mintInfo: AsToken.MintInfo? = nil, collectionAddress: String, lastRefreshTime: String? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: AsToken.Image? = nil, content: AsToken.Content? = nil) -> Entity {
+          public static func makeToken(tokenId: String, tokenContract: AsToken.TokenContract? = nil, mintInfo: AsToken.MintInfo? = nil, collectionAddress: String, lastRefreshTime: datetime? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: AsToken.Image? = nil, content: AsToken.Content? = nil) -> Entity {
             return Entity(unsafeResultMap: ["__typename": "Token", "tokenId": tokenId, "tokenContract": tokenContract.flatMap { (value: AsToken.TokenContract) -> ResultMap in value.resultMap }, "mintInfo": mintInfo.flatMap { (value: AsToken.MintInfo) -> ResultMap in value.resultMap }, "collectionAddress": collectionAddress, "lastRefreshTime": lastRefreshTime, "owner": owner, "name": name, "description": description, "image": image.flatMap { (value: AsToken.Image) -> ResultMap in value.resultMap }, "content": content.flatMap { (value: AsToken.Content) -> ResultMap in value.resultMap }])
           }
 
@@ -49194,7 +49194,7 @@ public final class SearchQuery: GraphQLQuery {
                 GraphQLField("tokenContract", type: .object(TokenContract.selections)),
                 GraphQLField("mintInfo", type: .object(MintInfo.selections)),
                 GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
-                GraphQLField("lastRefreshTime", type: .scalar(String.self)),
+                GraphQLField("lastRefreshTime", type: .scalar(datetime.self)),
                 GraphQLField("owner", type: .scalar(String.self)),
                 GraphQLField("name", type: .scalar(String.self)),
                 GraphQLField("description", type: .scalar(String.self)),
@@ -49209,7 +49209,7 @@ public final class SearchQuery: GraphQLQuery {
               self.resultMap = unsafeResultMap
             }
 
-            public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: String? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil) {
+            public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: datetime? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil) {
               self.init(unsafeResultMap: ["__typename": "Token", "tokenId": tokenId, "tokenContract": tokenContract.flatMap { (value: TokenContract) -> ResultMap in value.resultMap }, "mintInfo": mintInfo.flatMap { (value: MintInfo) -> ResultMap in value.resultMap }, "collectionAddress": collectionAddress, "lastRefreshTime": lastRefreshTime, "owner": owner, "name": name, "description": description, "image": image.flatMap { (value: Image) -> ResultMap in value.resultMap }, "content": content.flatMap { (value: Content) -> ResultMap in value.resultMap }])
             }
 
@@ -49258,9 +49258,9 @@ public final class SearchQuery: GraphQLQuery {
               }
             }
 
-            public var lastRefreshTime: String? {
+            public var lastRefreshTime: datetime? {
               get {
-                return resultMap["lastRefreshTime"] as? String
+                return resultMap["lastRefreshTime"] as? datetime
               }
               set {
                 resultMap.updateValue(newValue, forKey: "lastRefreshTime")
@@ -49869,7 +49869,7 @@ public final class SearchQuery: GraphQLQuery {
                     GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                     GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
                     GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-                    GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+                    GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
                     GraphQLField("transactionHash", type: .scalar(String.self)),
                     GraphQLField("logIndex", type: .scalar(Int.self)),
                   ]
@@ -49881,7 +49881,7 @@ public final class SearchQuery: GraphQLQuery {
                   self.resultMap = unsafeResultMap
                 }
 
-                public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+                public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
                   self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
                 }
 
@@ -49903,9 +49903,9 @@ public final class SearchQuery: GraphQLQuery {
                   }
                 }
 
-                public var blockTimestamp: String {
+                public var blockTimestamp: Date {
                   get {
-                    return resultMap["blockTimestamp"]! as! String
+                    return resultMap["blockTimestamp"]! as! Date
                   }
                   set {
                     resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -52199,7 +52199,7 @@ public struct MintDetails: GraphQLFragment {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-        GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+        GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
         GraphQLField("transactionHash", type: .scalar(String.self)),
         GraphQLField("logIndex", type: .scalar(Int.self)),
       ]
@@ -52211,7 +52211,7 @@ public struct MintDetails: GraphQLFragment {
       self.resultMap = unsafeResultMap
     }
 
-    public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+    public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
       self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
     }
 
@@ -52233,9 +52233,9 @@ public struct MintDetails: GraphQLFragment {
       }
     }
 
-    public var blockTimestamp: String {
+    public var blockTimestamp: Date {
       get {
-        return resultMap["blockTimestamp"]! as! String
+        return resultMap["blockTimestamp"]! as! Date
       }
       set {
         resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -52307,7 +52307,7 @@ public struct TransactionDetails: GraphQLFragment {
     return [
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-      GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+      GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
       GraphQLField("transactionHash", type: .scalar(String.self)),
       GraphQLField("logIndex", type: .scalar(Int.self)),
     ]
@@ -52319,7 +52319,7 @@ public struct TransactionDetails: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+  public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
     self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
   }
 
@@ -52341,9 +52341,9 @@ public struct TransactionDetails: GraphQLFragment {
     }
   }
 
-  public var blockTimestamp: String {
+  public var blockTimestamp: Date {
     get {
-      return resultMap["blockTimestamp"]! as! String
+      return resultMap["blockTimestamp"]! as! Date
     }
     set {
       resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -52496,7 +52496,7 @@ public struct SaleInfo: GraphQLFragment {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-        GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+        GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
         GraphQLField("transactionHash", type: .scalar(String.self)),
         GraphQLField("logIndex", type: .scalar(Int.self)),
       ]
@@ -52508,7 +52508,7 @@ public struct SaleInfo: GraphQLFragment {
       self.resultMap = unsafeResultMap
     }
 
-    public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+    public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
       self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
     }
 
@@ -52530,9 +52530,9 @@ public struct SaleInfo: GraphQLFragment {
       }
     }
 
-    public var blockTimestamp: String {
+    public var blockTimestamp: Date {
       get {
-        return resultMap["blockTimestamp"]! as! String
+        return resultMap["blockTimestamp"]! as! Date
       }
       set {
         resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -52933,7 +52933,7 @@ public struct V2AuctionMarketProperties: GraphQLFragment {
   public static var selections: [GraphQLSelection] {
     return [
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-      GraphQLField("firstBidTime", type: .scalar(String.self)),
+      GraphQLField("firstBidTime", type: .scalar(datetime.self)),
       GraphQLField("highestBidder", type: .scalar(String.self)),
       GraphQLField("curator", type: .nonNull(.scalar(String.self))),
       GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
@@ -52941,7 +52941,7 @@ public struct V2AuctionMarketProperties: GraphQLFragment {
       GraphQLField("tokenId", type: .nonNull(.scalar(String.self))),
       GraphQLField("auctionCurrency", type: .nonNull(.scalar(String.self))),
       GraphQLField("duration", type: .nonNull(.scalar(String.self))),
-      GraphQLField("estimatedExpirationTime", type: .scalar(String.self)),
+      GraphQLField("estimatedExpirationTime", type: .scalar(datetime.self)),
       GraphQLField("v2AuctionStatus", type: .nonNull(.scalar(V2AuctionStatus.self))),
       GraphQLField("tokenOwner", type: .nonNull(.scalar(String.self))),
       GraphQLField("address", type: .nonNull(.scalar(String.self))),
@@ -52958,7 +52958,7 @@ public struct V2AuctionMarketProperties: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
+  public init(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
     self.init(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: HighestBidPrice) -> ResultMap in value.resultMap }])
   }
 
@@ -52971,9 +52971,9 @@ public struct V2AuctionMarketProperties: GraphQLFragment {
     }
   }
 
-  public var firstBidTime: String? {
+  public var firstBidTime: datetime? {
     get {
-      return resultMap["firstBidTime"] as? String
+      return resultMap["firstBidTime"] as? datetime
     }
     set {
       resultMap.updateValue(newValue, forKey: "firstBidTime")
@@ -53043,9 +53043,9 @@ public struct V2AuctionMarketProperties: GraphQLFragment {
     }
   }
 
-  public var estimatedExpirationTime: String? {
+  public var estimatedExpirationTime: datetime? {
     get {
-      return resultMap["estimatedExpirationTime"] as? String
+      return resultMap["estimatedExpirationTime"] as? datetime
     }
     set {
       resultMap.updateValue(newValue, forKey: "estimatedExpirationTime")
@@ -55030,7 +55030,7 @@ public struct MarketPropertiesFull: GraphQLFragment {
     return MarketPropertiesFull(unsafeResultMap: ["__typename": "V1BidShare"])
   }
 
-  public static func makeV2Auction(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> MarketPropertiesFull {
+  public static func makeV2Auction(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> MarketPropertiesFull {
     return MarketPropertiesFull(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: AsV2Auction.HighestBidPrice) -> ResultMap in value.resultMap }])
   }
 
@@ -55134,7 +55134,7 @@ public struct MarketPropertiesFull: GraphQLFragment {
       return [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("firstBidTime", type: .scalar(String.self)),
+        GraphQLField("firstBidTime", type: .scalar(datetime.self)),
         GraphQLField("highestBidder", type: .scalar(String.self)),
         GraphQLField("curator", type: .nonNull(.scalar(String.self))),
         GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
@@ -55142,7 +55142,7 @@ public struct MarketPropertiesFull: GraphQLFragment {
         GraphQLField("tokenId", type: .nonNull(.scalar(String.self))),
         GraphQLField("auctionCurrency", type: .nonNull(.scalar(String.self))),
         GraphQLField("duration", type: .nonNull(.scalar(String.self))),
-        GraphQLField("estimatedExpirationTime", type: .scalar(String.self)),
+        GraphQLField("estimatedExpirationTime", type: .scalar(datetime.self)),
         GraphQLField("v2AuctionStatus", type: .nonNull(.scalar(V2AuctionStatus.self))),
         GraphQLField("tokenOwner", type: .nonNull(.scalar(String.self))),
         GraphQLField("address", type: .nonNull(.scalar(String.self))),
@@ -55159,7 +55159,7 @@ public struct MarketPropertiesFull: GraphQLFragment {
       self.resultMap = unsafeResultMap
     }
 
-    public init(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
+    public init(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
       self.init(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: HighestBidPrice) -> ResultMap in value.resultMap }])
     }
 
@@ -55172,9 +55172,9 @@ public struct MarketPropertiesFull: GraphQLFragment {
       }
     }
 
-    public var firstBidTime: String? {
+    public var firstBidTime: datetime? {
       get {
-        return resultMap["firstBidTime"] as? String
+        return resultMap["firstBidTime"] as? datetime
       }
       set {
         resultMap.updateValue(newValue, forKey: "firstBidTime")
@@ -55244,9 +55244,9 @@ public struct MarketPropertiesFull: GraphQLFragment {
       }
     }
 
-    public var estimatedExpirationTime: String? {
+    public var estimatedExpirationTime: datetime? {
       get {
-        return resultMap["estimatedExpirationTime"] as? String
+        return resultMap["estimatedExpirationTime"] as? datetime
       }
       set {
         resultMap.updateValue(newValue, forKey: "estimatedExpirationTime")
@@ -57606,7 +57606,7 @@ public struct MarketInfo: GraphQLFragment {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-        GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+        GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
         GraphQLField("transactionHash", type: .scalar(String.self)),
         GraphQLField("logIndex", type: .scalar(Int.self)),
       ]
@@ -57618,7 +57618,7 @@ public struct MarketInfo: GraphQLFragment {
       self.resultMap = unsafeResultMap
     }
 
-    public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+    public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
       self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
     }
 
@@ -57640,9 +57640,9 @@ public struct MarketInfo: GraphQLFragment {
       }
     }
 
-    public var blockTimestamp: String {
+    public var blockTimestamp: Date {
       get {
-        return resultMap["blockTimestamp"]! as! String
+        return resultMap["blockTimestamp"]! as! Date
       }
       set {
         resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -58158,7 +58158,7 @@ public struct MarketDetails: GraphQLFragment {
       return Property(unsafeResultMap: ["__typename": "V1BidShare"])
     }
 
-    public static func makeV2Auction(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
+    public static func makeV2Auction(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
       return Property(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: AsV2Auction.HighestBidPrice) -> ResultMap in value.resultMap }])
     }
 
@@ -58273,7 +58273,7 @@ public struct MarketDetails: GraphQLFragment {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-          GraphQLField("firstBidTime", type: .scalar(String.self)),
+          GraphQLField("firstBidTime", type: .scalar(datetime.self)),
           GraphQLField("highestBidder", type: .scalar(String.self)),
           GraphQLField("curator", type: .nonNull(.scalar(String.self))),
           GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
@@ -58281,7 +58281,7 @@ public struct MarketDetails: GraphQLFragment {
           GraphQLField("tokenId", type: .nonNull(.scalar(String.self))),
           GraphQLField("auctionCurrency", type: .nonNull(.scalar(String.self))),
           GraphQLField("duration", type: .nonNull(.scalar(String.self))),
-          GraphQLField("estimatedExpirationTime", type: .scalar(String.self)),
+          GraphQLField("estimatedExpirationTime", type: .scalar(datetime.self)),
           GraphQLField("v2AuctionStatus", type: .nonNull(.scalar(V2AuctionStatus.self))),
           GraphQLField("tokenOwner", type: .nonNull(.scalar(String.self))),
           GraphQLField("address", type: .nonNull(.scalar(String.self))),
@@ -58298,7 +58298,7 @@ public struct MarketDetails: GraphQLFragment {
         self.resultMap = unsafeResultMap
       }
 
-      public init(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
+      public init(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
         self.init(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: HighestBidPrice) -> ResultMap in value.resultMap }])
       }
 
@@ -58311,9 +58311,9 @@ public struct MarketDetails: GraphQLFragment {
         }
       }
 
-      public var firstBidTime: String? {
+      public var firstBidTime: datetime? {
         get {
-          return resultMap["firstBidTime"] as? String
+          return resultMap["firstBidTime"] as? datetime
         }
         set {
           resultMap.updateValue(newValue, forKey: "firstBidTime")
@@ -58383,9 +58383,9 @@ public struct MarketDetails: GraphQLFragment {
         }
       }
 
-      public var estimatedExpirationTime: String? {
+      public var estimatedExpirationTime: datetime? {
         get {
-          return resultMap["estimatedExpirationTime"] as? String
+          return resultMap["estimatedExpirationTime"] as? datetime
         }
         set {
           resultMap.updateValue(newValue, forKey: "estimatedExpirationTime")
@@ -60639,7 +60639,7 @@ public struct TokenInfo: GraphQLFragment {
       GraphQLField("tokenContract", type: .object(TokenContract.selections)),
       GraphQLField("mintInfo", type: .object(MintInfo.selections)),
       GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
-      GraphQLField("lastRefreshTime", type: .scalar(String.self)),
+      GraphQLField("lastRefreshTime", type: .scalar(datetime.self)),
       GraphQLField("owner", type: .scalar(String.self)),
       GraphQLField("name", type: .scalar(String.self)),
       GraphQLField("description", type: .scalar(String.self)),
@@ -60654,7 +60654,7 @@ public struct TokenInfo: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: String? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil) {
+  public init(tokenId: String, tokenContract: TokenContract? = nil, mintInfo: MintInfo? = nil, collectionAddress: String, lastRefreshTime: datetime? = nil, owner: String? = nil, name: String? = nil, description: String? = nil, image: Image? = nil, content: Content? = nil) {
     self.init(unsafeResultMap: ["__typename": "Token", "tokenId": tokenId, "tokenContract": tokenContract.flatMap { (value: TokenContract) -> ResultMap in value.resultMap }, "mintInfo": mintInfo.flatMap { (value: MintInfo) -> ResultMap in value.resultMap }, "collectionAddress": collectionAddress, "lastRefreshTime": lastRefreshTime, "owner": owner, "name": name, "description": description, "image": image.flatMap { (value: Image) -> ResultMap in value.resultMap }, "content": content.flatMap { (value: Content) -> ResultMap in value.resultMap }])
   }
 
@@ -60703,9 +60703,9 @@ public struct TokenInfo: GraphQLFragment {
     }
   }
 
-  public var lastRefreshTime: String? {
+  public var lastRefreshTime: datetime? {
     get {
-      return resultMap["lastRefreshTime"] as? String
+      return resultMap["lastRefreshTime"] as? datetime
     }
     set {
       resultMap.updateValue(newValue, forKey: "lastRefreshTime")
@@ -61288,7 +61288,7 @@ public struct TokenInfo: GraphQLFragment {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-          GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+          GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
           GraphQLField("transactionHash", type: .scalar(String.self)),
           GraphQLField("logIndex", type: .scalar(Int.self)),
         ]
@@ -61300,7 +61300,7 @@ public struct TokenInfo: GraphQLFragment {
         self.resultMap = unsafeResultMap
       }
 
-      public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+      public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
         self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
       }
 
@@ -61322,9 +61322,9 @@ public struct TokenInfo: GraphQLFragment {
         }
       }
 
-      public var blockTimestamp: String {
+      public var blockTimestamp: Date {
         get {
-          return resultMap["blockTimestamp"]! as! String
+          return resultMap["blockTimestamp"]! as! Date
         }
         set {
           resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -67825,7 +67825,7 @@ public struct EventInfo: GraphQLFragment {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-        GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+        GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
         GraphQLField("transactionHash", type: .scalar(String.self)),
         GraphQLField("logIndex", type: .scalar(Int.self)),
       ]
@@ -67837,7 +67837,7 @@ public struct EventInfo: GraphQLFragment {
       self.resultMap = unsafeResultMap
     }
 
-    public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+    public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
       self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
     }
 
@@ -67859,9 +67859,9 @@ public struct EventInfo: GraphQLFragment {
       }
     }
 
-    public var blockTimestamp: String {
+    public var blockTimestamp: Date {
       get {
-        return resultMap["blockTimestamp"]! as! String
+        return resultMap["blockTimestamp"]! as! Date
       }
       set {
         resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -74533,7 +74533,7 @@ public struct TokenDetails: GraphQLFragment {
   public static var selections: [GraphQLSelection] {
     return [
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-      GraphQLField("metadata", type: .scalar(String.self)),
+      GraphQLField("metadata", type: .scalar(JSONScalar.self)),
       GraphQLField("tokenUrl", type: .scalar(String.self)),
       GraphQLField("tokenUrlMimeType", type: .scalar(String.self)),
       GraphQLField("attributes", type: .list(.nonNull(.object(Attribute.selections)))),
@@ -74546,7 +74546,7 @@ public struct TokenDetails: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(metadata: String? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
+  public init(metadata: JSONScalar? = nil, tokenUrl: String? = nil, tokenUrlMimeType: String? = nil, attributes: [Attribute]? = nil) {
     self.init(unsafeResultMap: ["__typename": "Token", "metadata": metadata, "tokenUrl": tokenUrl, "tokenUrlMimeType": tokenUrlMimeType, "attributes": attributes.flatMap { (value: [Attribute]) -> [ResultMap] in value.map { (value: Attribute) -> ResultMap in value.resultMap } }])
   }
 
@@ -74559,9 +74559,9 @@ public struct TokenDetails: GraphQLFragment {
     }
   }
 
-  public var metadata: String? {
+  public var metadata: JSONScalar? {
     get {
-      return resultMap["metadata"] as? String
+      return resultMap["metadata"] as? JSONScalar
     }
     set {
       resultMap.updateValue(newValue, forKey: "metadata")
@@ -75517,7 +75517,7 @@ public struct MarketsOnMintInfo: GraphQLFragment {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-          GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+          GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
           GraphQLField("transactionHash", type: .scalar(String.self)),
           GraphQLField("logIndex", type: .scalar(Int.self)),
         ]
@@ -75529,7 +75529,7 @@ public struct MarketsOnMintInfo: GraphQLFragment {
         self.resultMap = unsafeResultMap
       }
 
-      public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+      public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
         self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
       }
 
@@ -75551,9 +75551,9 @@ public struct MarketsOnMintInfo: GraphQLFragment {
         }
       }
 
-      public var blockTimestamp: String {
+      public var blockTimestamp: Date {
         get {
-          return resultMap["blockTimestamp"]! as! String
+          return resultMap["blockTimestamp"]! as! Date
         }
         set {
           resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -76018,7 +76018,7 @@ public struct MarketsOnMintInfo: GraphQLFragment {
         return Property(unsafeResultMap: ["__typename": "V1BidShare"])
       }
 
-      public static func makeV2Auction(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
+      public static func makeV2Auction(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: AsV2Auction.ReservePrice, highestBidPrice: AsV2Auction.HighestBidPrice? = nil) -> Property {
         return Property(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: AsV2Auction.HighestBidPrice) -> ResultMap in value.resultMap }])
       }
 
@@ -76133,7 +76133,7 @@ public struct MarketsOnMintInfo: GraphQLFragment {
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-            GraphQLField("firstBidTime", type: .scalar(String.self)),
+            GraphQLField("firstBidTime", type: .scalar(datetime.self)),
             GraphQLField("highestBidder", type: .scalar(String.self)),
             GraphQLField("curator", type: .nonNull(.scalar(String.self))),
             GraphQLField("collectionAddress", type: .nonNull(.scalar(String.self))),
@@ -76141,7 +76141,7 @@ public struct MarketsOnMintInfo: GraphQLFragment {
             GraphQLField("tokenId", type: .nonNull(.scalar(String.self))),
             GraphQLField("auctionCurrency", type: .nonNull(.scalar(String.self))),
             GraphQLField("duration", type: .nonNull(.scalar(String.self))),
-            GraphQLField("estimatedExpirationTime", type: .scalar(String.self)),
+            GraphQLField("estimatedExpirationTime", type: .scalar(datetime.self)),
             GraphQLField("v2AuctionStatus", type: .nonNull(.scalar(V2AuctionStatus.self))),
             GraphQLField("tokenOwner", type: .nonNull(.scalar(String.self))),
             GraphQLField("address", type: .nonNull(.scalar(String.self))),
@@ -76158,7 +76158,7 @@ public struct MarketsOnMintInfo: GraphQLFragment {
           self.resultMap = unsafeResultMap
         }
 
-        public init(firstBidTime: String? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: String? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
+        public init(firstBidTime: datetime? = nil, highestBidder: String? = nil, curator: String, collectionAddress: String, curatorFeePercentage: Int, tokenId: String, auctionCurrency: String, duration: String, estimatedExpirationTime: datetime? = nil, v2AuctionStatus: V2AuctionStatus, tokenOwner: String, address: String, auctionId: String, approved: Bool, reservePrice: ReservePrice, highestBidPrice: HighestBidPrice? = nil) {
           self.init(unsafeResultMap: ["__typename": "V2Auction", "firstBidTime": firstBidTime, "highestBidder": highestBidder, "curator": curator, "collectionAddress": collectionAddress, "curatorFeePercentage": curatorFeePercentage, "tokenId": tokenId, "auctionCurrency": auctionCurrency, "duration": duration, "estimatedExpirationTime": estimatedExpirationTime, "v2AuctionStatus": v2AuctionStatus, "tokenOwner": tokenOwner, "address": address, "auctionId": auctionId, "approved": approved, "reservePrice": reservePrice.resultMap, "highestBidPrice": highestBidPrice.flatMap { (value: HighestBidPrice) -> ResultMap in value.resultMap }])
         }
 
@@ -76171,9 +76171,9 @@ public struct MarketsOnMintInfo: GraphQLFragment {
           }
         }
 
-        public var firstBidTime: String? {
+        public var firstBidTime: datetime? {
           get {
-            return resultMap["firstBidTime"] as? String
+            return resultMap["firstBidTime"] as? datetime
           }
           set {
             resultMap.updateValue(newValue, forKey: "firstBidTime")
@@ -76243,9 +76243,9 @@ public struct MarketsOnMintInfo: GraphQLFragment {
           }
         }
 
-        public var estimatedExpirationTime: String? {
+        public var estimatedExpirationTime: datetime? {
           get {
-            return resultMap["estimatedExpirationTime"] as? String
+            return resultMap["estimatedExpirationTime"] as? datetime
           }
           set {
             resultMap.updateValue(newValue, forKey: "estimatedExpirationTime")
@@ -78643,7 +78643,7 @@ public struct TokensSalesInfo: GraphQLFragment {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-          GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+          GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
           GraphQLField("transactionHash", type: .scalar(String.self)),
           GraphQLField("logIndex", type: .scalar(Int.self)),
         ]
@@ -78655,7 +78655,7 @@ public struct TokensSalesInfo: GraphQLFragment {
         self.resultMap = unsafeResultMap
       }
 
-      public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+      public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
         self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
       }
 
@@ -78677,9 +78677,9 @@ public struct TokensSalesInfo: GraphQLFragment {
         }
       }
 
-      public var blockTimestamp: String {
+      public var blockTimestamp: Date {
         get {
-          return resultMap["blockTimestamp"]! as! String
+          return resultMap["blockTimestamp"]! as! Date
         }
         set {
           resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -79208,7 +79208,7 @@ public struct TokensEventsInfo: GraphQLFragment {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-          GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+          GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
           GraphQLField("transactionHash", type: .scalar(String.self)),
           GraphQLField("logIndex", type: .scalar(Int.self)),
         ]
@@ -79220,7 +79220,7 @@ public struct TokensEventsInfo: GraphQLFragment {
         self.resultMap = unsafeResultMap
       }
 
-      public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+      public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
         self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
       }
 
@@ -79242,9 +79242,9 @@ public struct TokensEventsInfo: GraphQLFragment {
         }
       }
 
-      public var blockTimestamp: String {
+      public var blockTimestamp: Date {
         get {
-          return resultMap["blockTimestamp"]! as! String
+          return resultMap["blockTimestamp"]! as! Date
         }
         set {
           resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -86093,7 +86093,7 @@ public struct TokenFullDetails: GraphQLFragment {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-          GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+          GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
           GraphQLField("transactionHash", type: .scalar(String.self)),
           GraphQLField("logIndex", type: .scalar(Int.self)),
         ]
@@ -86105,7 +86105,7 @@ public struct TokenFullDetails: GraphQLFragment {
         self.resultMap = unsafeResultMap
       }
 
-      public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+      public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
         self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
       }
 
@@ -86127,9 +86127,9 @@ public struct TokenFullDetails: GraphQLFragment {
         }
       }
 
-      public var blockTimestamp: String {
+      public var blockTimestamp: Date {
         get {
-          return resultMap["blockTimestamp"]! as! String
+          return resultMap["blockTimestamp"]! as! Date
         }
         set {
           resultMap.updateValue(newValue, forKey: "blockTimestamp")
@@ -86607,7 +86607,7 @@ public struct TokenFullDetails: GraphQLFragment {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("blockNumber", type: .nonNull(.scalar(Int.self))),
-          GraphQLField("blockTimestamp", type: .nonNull(.scalar(String.self))),
+          GraphQLField("blockTimestamp", type: .nonNull(.scalar(Date.self))),
           GraphQLField("transactionHash", type: .scalar(String.self)),
           GraphQLField("logIndex", type: .scalar(Int.self)),
         ]
@@ -86619,7 +86619,7 @@ public struct TokenFullDetails: GraphQLFragment {
         self.resultMap = unsafeResultMap
       }
 
-      public init(blockNumber: Int, blockTimestamp: String, transactionHash: String? = nil, logIndex: Int? = nil) {
+      public init(blockNumber: Int, blockTimestamp: Date, transactionHash: String? = nil, logIndex: Int? = nil) {
         self.init(unsafeResultMap: ["__typename": "TransactionInfo", "blockNumber": blockNumber, "blockTimestamp": blockTimestamp, "transactionHash": transactionHash, "logIndex": logIndex])
       }
 
@@ -86641,9 +86641,9 @@ public struct TokenFullDetails: GraphQLFragment {
         }
       }
 
-      public var blockTimestamp: String {
+      public var blockTimestamp: Date {
         get {
-          return resultMap["blockTimestamp"]! as! String
+          return resultMap["blockTimestamp"]! as! Date
         }
         set {
           resultMap.updateValue(newValue, forKey: "blockTimestamp")

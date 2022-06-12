@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct NFT: Codable, Identifiable, Hashable {
+public struct NFT: Identifiable, Hashable {
   public struct Attribute: Codable, Identifiable, Hashable {
     public var id: String { "\(traitType)_\(value)"}
     public var traitType: String
@@ -82,7 +82,7 @@ public struct NFT: Codable, Identifiable, Hashable {
   public var owner: String?
   public var name: String?
   public var description: String?
-  public var metadata: String?
+  @HashableNoop @EquatableNoop public var metadata: JSONScalar?
   public var tokenUrl: String?
   public var tokenUrlMimeType: String?
   public var image: Image?
