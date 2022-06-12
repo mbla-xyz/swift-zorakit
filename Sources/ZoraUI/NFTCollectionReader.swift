@@ -9,13 +9,13 @@ import SwiftUI
 import ZoraAPI
 
 public struct NFTCollectionReader<Content: View>: View {
-  @State var collection: [NFTToken]? = nil
+  @State var collection: [NFT]? = nil
   
   public let query: ZoraAPI.NFTTokensInput
-  public let content: ([NFTToken]) -> Content
+  public let content: ([NFT]) -> Content
   @State var errorMessage = ""
   
-  public init(_ query: ZoraAPI.NFTTokensInput, _ content: @escaping ([NFTToken]) -> Content) {
+  public init(_ query: ZoraAPI.NFTTokensInput, _ content: @escaping ([NFT]) -> Content) {
     self.query = query
     self.content = content
   }
@@ -32,7 +32,6 @@ public struct NFTCollectionReader<Content: View>: View {
       do {
         collection = try await ZoraAPI.shared.tokens(query)
       } catch {
-//        collection = nil
         errorMessage = String(describing: error)
       }
     }

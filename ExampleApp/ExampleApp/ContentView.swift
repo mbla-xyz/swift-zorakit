@@ -7,22 +7,49 @@
 
 import SwiftUI
 import ZoraUI
+import ZoraAPI
 
-struct ContentView: View {
-    var body: some View {
-        VStack {
-          Text("Token")
-          NFTCollectionReader(.owner("leeadkins.eth")) { tokens in
-            List(tokens) { token in
-              HStack {
-                
-                NFTImage(token).frame(width: 50, height: 50)
-                Text(token.name ?? "")
-              }
-            }
+struct DetailView: View {
+  let token: NFT
+  
+  var body: some View {
+    VStack {
+      NFTImage(token)
+        .frame(maxWidth: 200)
+      Text(token.name ?? "")
+      Text(token.description ?? "")
+      if let attributes = token.attributes {
+        List(attributes) { attribute in
+          HStack {
+            Text(attribute.traitType)
+            Text(attribute.value)
           }
         }
+      }
+    }.padding(20)
+      .navigationTitle(token.name ?? "Token")
+  }
+}
+
+struct ContentView: View {
+  let collection: ZoraAPI.NFTTokensInput = .collectionAddress("0xa406489360A47Af2C74fc1004316A64e469646A5")
+  var body: some View {
+    NavigationStack {
+      ScrollView {
+        NFTCollectionReader(collection) { tokens in
+          LazyVGrid(columns: [GridItem(), GridItem()]) {
+            ForEach(tokens) { token in
+              NavigationLink(value: token) {
+                NFTCard(token)
+              }
+            }
+          }.padding(20)
+        }.navigationDestination(for: NFT.self) { token in
+          DetailView(token: token)
+        }
+      }.navigationTitle("My NFTs")
     }
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {

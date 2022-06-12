@@ -1,6 +1,52 @@
 import Foundation
 import Apollo
 
+
+// pagination
+// market info1
+// expose raw results while we learn
+
+// This is a thought in progress...
+// We currently use Apollo, but it is very opinionated about
+// how it types query/response structs. Too opinionated, which
+// is why we have to translate everything over to a standardized
+// thing.
+// We've got a few options, including:
+// 1. Define a high level protocol and mark all the Apollo things
+//    as conforming.
+// 2. Just not use apollo, because once we've built out the protocols,
+//    it's not that different to just go ahead and build our own queries
+//    out and decode it ourselves. Especially since we're already wanting to
+//    do a bit of a DSL for nicer query writing with ResultBuilders.
+// Leaning towards 2, but for hackathon purposes, we're going to leave it
+// alone, not get nerd sniped, and just clean it up early this week.
+//
+// Okay, I'm actually going to try to hack this together real quick.
+// Primarily because Apollo is choking on the metadata decode, which is necessary
+// when you ask for full details because it's bundled with attributes.
+// And this is probably less brittle.
+public protocol Query {
+  associatedtype Response: Decodable
+  var body: String { get }
+  static func decodeResponse(_ data: Data) throws -> Response
+}
+
+public extension Query {
+  static func decodeResponse(_ data: Data) throws -> Response {
+    try JSONDecoder().decode(Response.self, from: data)
+  }
+}
+
+public class ZoraBaseAPI {
+  public static let shared = ZoraAPI()
+  public var endpoint = "https://api.zora.co/graphql"
+  
+  public init() {}
+}
+
+
+// This is the actual, in use API right now.
+
 public class ZoraAPI {
   public static let shared = ZoraAPI()
   public var endpoint = "https://api.zora.co/graphql"
@@ -23,20 +69,20 @@ public class ZoraAPI {
   }
   
   public func collections() async throws -> [NFTCollection]? {
-    let query = CollectionsQuery(networks: [network], where: .init(collectionAddresses: []), pagination: .init(limit: 100), sort: .init(sortKey: .created, sortDirection: .asc), includeFullDetails: false)
+    let query = CollectionsQuery(networks: [network], where: .init(collectionAddresses: []), pagination: .init(limit: 32), sort: .init(sortKey: .created, sortDirection: .asc), includeFullDetails: false)
     query.pagination = .init(limit: 200)
     let result = try await perform(query: query)
     return result?.collections.nodes.map { NFTCollection(from: $0) }
   }
   
   
-  public func tokens(query: TokensQueryInput?) async throws -> [NFTToken]? {
-    let gqlQuery = TokensQuery(networks: [network], where: query, pagination: .init(limit: 100), sort: .init(sortKey: .minted, sortDirection: .asc), includeFullDetails: false, includeSalesHistory: false)
+  public func tokens(query: TokensQueryInput?) async throws -> [NFT]? {
+    let gqlQuery = TokensQuery(networks: [network], where: query, pagination: .init(limit: 32), sort: .init(sortKey: .minted, sortDirection: .asc), includeFullDetails: false, includeSalesHistory: false)
     let result = try await perform(query: gqlQuery)
-    return result?.tokens.nodes.map { NFTToken(from: $0.token) }
+    return result?.tokens.nodes.map { NFT(from: $0.token) }
   }
   
-  public func tokens(_ input: NFTTokensInput) async throws -> [NFTToken]? {
+  public func tokens(_ input: NFTTokensInput) async throws -> [NFT]? {
     switch input {
       case .collectionAddress(let collectionAddress):
         return try await tokens(query: .init(collectionAddresses: [collectionAddress]))
@@ -47,11 +93,11 @@ public class ZoraAPI {
     }
   }
   
-  public func token(address: String, id: String) async throws -> NFTToken? {
+  public func token(address: String, id: String) async throws -> NFT? {
     let query = TokenQuery(network: network, token: .init(address: address, tokenId: id), includeFullDetails: false)
     let result = try await perform(query: query)
     if let tokenData = result?.token?.token {
-      return NFTToken(from: tokenData)
+      return NFT(from: tokenData)
     }
     return nil
   }

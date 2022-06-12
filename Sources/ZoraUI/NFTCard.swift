@@ -10,22 +10,27 @@ import ZoraAPI
 import SVGView
 
 public struct NFTImage: View {
-  let token: NFTToken
+  let token: NFT
   
-  public init(_ token: NFTToken) {
+  public init(_ token: NFT) {
     self.token = token
   }
   
   public var body: some View {
     if let image = token.image {
       if image.isSVG {
-        SVGView(data: token.image!.url.data(using: .utf8)!)
+        Rectangle()
+          .aspectRatio(1.0, contentMode: .fit)
       } else {
         AsyncImage(url: URL(string: image.originalUrl)) { loaded in
           loaded.resizable()
-            .scaledToFill()
+               .aspectRatio(contentMode: .fit)
+               .frame(maxWidth: 300)
         } placeholder: {
-          EmptyView()
+          Rectangle()
+            .fill(.gray)
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: 300)
         }
       }
     } else {
@@ -37,31 +42,21 @@ public struct NFTImage: View {
 
 
 public struct NFTCard: View {
-  public var token: NFTToken
+  public var token: NFT
   
-  public init(_ token: NFTToken) {
+  public init(_ token: NFT) {
     self.token = token
   }
   
   public var body: some View {
-    Text(token.name ?? "Unknown Token")
-//    VStack(alignment: .center) {
-//      HStack {
-//        Text(token.name ?? "...")
-//        Text(token.tokenId)
-//      }
-//      Text(token.image?.originalUrl ?? "....")
-//      Text(token.cloudfrontURL)
-//      if let image = token.image, !image.isSVG {
-//        AsyncImage(url: URL(string: image.originalUrl)) { loaded in
-//          loaded.resizable()
-//            .scaledToFill()
-//        } placeholder: {
-//          EmptyView()
-//        }.frame(height: 50)
-//      } else if let image = token.image, image.isSVG {
-//        EmptyView()
-//      }
-//    }
+    VStack {
+      NFTImage(token)
+        .aspectRatio(1, contentMode: .fit)
+        .frame(maxWidth: .infinity)
+
+      Text(token.name ?? "Unknown")
+        .font(.headline)
+        .foregroundColor(.primary)
+    }
   }
 }
