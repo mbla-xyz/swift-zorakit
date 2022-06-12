@@ -79,6 +79,7 @@ public struct NFT: Identifiable, Hashable {
   public var id: String { "\(collectionAddress)_\(tokenId)" }
   public var tokenId: String
   public var collectionAddress: String
+  public var collectionName: String?
   public var owner: String?
   public var name: String?
   public var description: String?
@@ -91,6 +92,7 @@ public struct NFT: Identifiable, Hashable {
   public init(from tokenData: TokenQuery.Data.Token.Token) {
     self.tokenId = tokenData.tokenId
     self.collectionAddress = tokenData.collectionAddress
+    //FIXME: For some reason, collectionName doesn't come back even though you can get it.
     self.owner = tokenData.owner
     self.name = tokenData.name
     self.description = tokenData.description
@@ -106,6 +108,7 @@ public struct NFT: Identifiable, Hashable {
   public init(from tokenNodeData: TokensQuery.Data.Token.Node.Token) {
     self.tokenId = tokenNodeData.tokenId
     self.collectionAddress = tokenNodeData.collectionAddress
+    //FIXME: For some reason, collectionName doesn't come back even though you can get it.
     self.owner = tokenNodeData.owner
     self.name = tokenNodeData.name
     self.description = tokenNodeData.description
