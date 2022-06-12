@@ -32,19 +32,18 @@ struct DetailView: View {
 }
 
 struct ContentView: View {
-  let collection: ZoraAPI.NFTTokensInput = .collectionAddress("0xa406489360A47Af2C74fc1004316A64e469646A5")
+  @StateObject var collection = NFTCollectionLoader(.collectionAddress("0xa406489360A47Af2C74fc1004316A64e469646A5"))
   var body: some View {
     NavigationStack {
       ScrollView {
-        NFTCollectionReader(collection) { tokens in
-          LazyVGrid(columns: [GridItem(), GridItem()]) {
-            ForEach(tokens) { token in
-              NavigationLink(value: token) {
-                NFTCard(token)
-              }
+        LazyVGrid(columns: [GridItem(), GridItem()]) {
+          ForEach(collection.tokens) { token in
+            NavigationLink(value: token) {
+              NFTCard(token)
             }
-          }.padding(20)
-        }.navigationDestination(for: NFT.self) { token in
+          }
+        }.padding(20)
+        .navigationDestination(for: NFT.self) { token in
           DetailView(token: token)
         }
       }.navigationTitle("My NFTs")
