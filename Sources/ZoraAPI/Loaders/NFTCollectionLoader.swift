@@ -24,6 +24,7 @@ public class NFTCollectionLoader: ObservableObject {
       tokens = try await ZoraAPI.shared.tokens(query) ?? []
     } catch {
       // Errors...
+      // these should be able to be called back from the
     }
   }
 }

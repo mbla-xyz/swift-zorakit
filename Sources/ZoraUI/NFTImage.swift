@@ -9,6 +9,7 @@ import SwiftUI
 import ZoraAPI
 import SVGView
 
+//TODO: better placeholder, loading indicators, progress, svg because it's broken.
 public struct NFTImage: View {
   let token: NFT
   
