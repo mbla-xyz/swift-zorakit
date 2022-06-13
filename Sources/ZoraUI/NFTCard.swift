@@ -9,6 +9,9 @@ import SwiftUI
 import ZoraAPI
 import SVGView
 
+// TODO: Config modifiers with style.
+// init with style maybe too.
+// Styles can be large/small or detailed/simple. That kind of thing.
 public struct NFTCard: View {
   public var token: NFT
   

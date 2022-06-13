@@ -13,21 +13,28 @@ struct DetailView: View {
   let token: NFT
   
   var body: some View {
-    VStack {
-      NFTImage(token)
-        .frame(maxWidth: 200)
-      Text(token.name ?? "")
-      Text(token.description ?? "")
-      if let attributes = token.attributes {
-        List(attributes) { attribute in
-          HStack {
-            Text(attribute.traitType)
-            Text(attribute.value)
+    ScrollView {
+      VStack(spacing: 20) {
+        NFTImage(token)
+          .frame(maxWidth: 200)
+        Text(token.name ?? "")
+        Text(token.description ?? "")
+        if let attributes = token.attributes {
+          VStack(spacing: 20) {
+            Divider()
+            ForEach(attributes) { attribute in
+              HStack {
+                Text(attribute.traitType).font(.headline)
+                Spacer()
+                Text(attribute.value)
+              }
+            }
           }
+          
         }
-      }
-    }.padding(20)
-      .navigationTitle(token.name ?? "Token")
+      }.padding(20)
+    }
+    .navigationTitle(token.name ?? "Token")
   }
 }
 

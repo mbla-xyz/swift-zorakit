@@ -1,69 +1,6 @@
 import Foundation
 import Apollo
 
-public typealias datetime = String
-public typealias Date = String
-
-public enum JSONScalar {
-  case dictionary([String: Any])
-  case array([Any])
-}
-
-extension JSONScalar: JSONDecodable {
-  public init(jsonValue value: JSONValue) throws {
-    if let dict = value as? [String: Any] {
-      self = .dictionary(dict)
-    } else if let array = value as? [Any] {
-      self = .array(array)
-    } else {
-      throw JSONDecodingError.couldNotConvert(value: value, to: JSONScalar.self)
-    }
-  }
-}
-
-@propertyWrapper
-public struct EquatableNoop<Value>: Equatable {
-  public var wrappedValue: Value
-  
-  public init(wrappedValue value: Value) {
-    self.wrappedValue = value
-  }
-  
-  public static func == (lhs: EquatableNoop<Value>, rhs: EquatableNoop<Value>) -> Bool {
-    true
-  }
-}
-
-@propertyWrapper
-public struct HashableNoop<Value: Equatable>: Hashable {
-  public var wrappedValue: Value
-  
-  public init(wrappedValue value: Value) {
-    self.wrappedValue = value
-  }
-  
-  public func hash(into hasher: inout Hasher) {}
-}
-
-@propertyWrapper
-public struct CodableNoop<Value> {
-  public var wrappedValue: Value?
-  
-  public init(wrappedValue: Value?) {
-    self.wrappedValue = wrappedValue
-  }
-  
-}
-extension CodableNoop: Codable {
-  public func encode(to encoder: Encoder) throws {
-    // Skip encoding the wrapped value.
-  }
-  public init(from decoder: Decoder) throws {
-    // The wrapped value is simply initialised to nil when decoded.
-    self.wrappedValue = nil
-  }
-}
-
 // pagination
 // market info1
 // expose raw results while we learn
@@ -82,27 +19,6 @@ extension CodableNoop: Codable {
 //    do a bit of a DSL for nicer query writing with ResultBuilders.
 // Leaning towards 2, but for hackathon purposes, we're going to leave it
 // alone, not get nerd sniped, and just clean it up early this week.
-public protocol Query {
-  associatedtype Response: Decodable
-  var body: String { get }
-  static func decodeResponse(_ data: Data) throws -> Response
-}
-
-public extension Query {
-  static func decodeResponse(_ data: Data) throws -> Response {
-    try JSONDecoder().decode(Response.self, from: data)
-  }
-}
-
-public class ZoraBaseAPI {
-  public static let shared = ZoraAPI()
-  public var endpoint = "https://api.zora.co/graphql"
-  
-  public init() {}
-}
-
-
-// This is the actual, in use API right now.
 
 public class ZoraAPI {
   public static let shared = ZoraAPI()
@@ -110,6 +26,7 @@ public class ZoraAPI {
   public var network = NetworkInput(network: .ethereum, chain: .mainnet)
   private(set) lazy var apollo = ApolloClient(url: URL(string: endpoint)!)
   
+  // TODO: understand what you might want to actually init.
   public init() {}
   
   public func perform<Query: GraphQLQuery>(query: Query) async throws -> Query.Data? {
@@ -165,9 +82,5 @@ public extension ZoraAPI {
     case owner(String)
     case collection(NFTCollection)
     case collectionAddress(String)
-  }
-  
-  enum APIError: Error {
-    case noAddress
   }
 }
