@@ -43,11 +43,25 @@ struct ContentView: View {
   var body: some View {
     NavigationStack {
       ScrollView {
-        LazyVGrid(columns: [GridItem(), GridItem()]) {
-          ForEach(collection.tokens) { token in
-            NavigationLink(value: token) {
-              NFTCard(token)
+        VStack {
+          LazyVGrid(columns: [GridItem(), GridItem()]) {
+            ForEach(collection.tokens) { token in
+              NavigationLink(value: token) {
+                NFTCard(token)
+              }
             }
+          }
+          if collection.nextPageInfo.hasNextPage {
+            Button(collection.isLoading ? "Loading..." : "Load More") {
+              Task(priority: .userInitiated) {
+                await collection.loadNextPage()
+              }
+            }
+            .padding(10)
+            .frame(maxWidth: .infinity)
+            .background(.thinMaterial)
+            .opacity(collection.isLoading ? 0.5 : 1)
+            .disabled(collection.isLoading)
           }
         }.padding(20)
         .navigationDestination(for: NFT.self) { token in

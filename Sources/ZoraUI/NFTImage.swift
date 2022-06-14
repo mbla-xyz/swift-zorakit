@@ -10,6 +10,7 @@ import ZoraAPI
 import SVGView
 
 //TODO: better placeholder, loading indicators, progress, svg because it's broken.
+//TODO: also better caching, because it's not caching anything yet.
 public struct NFTImage: View {
   let token: NFT
   

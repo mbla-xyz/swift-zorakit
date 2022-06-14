@@ -1,9 +1,12 @@
 //
-//  File.swift
+//  PropertyWrappers.swift
 //  
 //
 //  Created by Lee Adkins on 6/12/22.
 //
+// These property wrappers will be used to silence and ignore
+// non-critical changes to entities, allowing better integration
+// with things like codable or swiftui
 
 import Foundation
 
@@ -33,12 +36,14 @@ public struct HashableNoop<Value: Equatable>: Hashable {
 
 @propertyWrapper
 public struct CodableNoop<Value> {
-  public var wrappedValue: Value?
-  
+  private var value: Value?
   public init(wrappedValue: Value?) {
-    self.wrappedValue = wrappedValue
+    self.value = wrappedValue
   }
-  
+  public var wrappedValue: Value? {
+    get { value }
+    set { self.value = newValue }
+  }
 }
 extension CodableNoop: Codable {
   public func encode(to encoder: Encoder) throws {
@@ -46,6 +51,6 @@ extension CodableNoop: Codable {
   }
   public init(from decoder: Decoder) throws {
     // The wrapped value is simply initialised to nil when decoded.
-    self.wrappedValue = nil
+    self.value = nil
   }
 }

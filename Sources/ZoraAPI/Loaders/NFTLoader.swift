@@ -9,7 +9,6 @@ import Foundation
 
 @MainActor
 public class NFTLoader: ObservableObject {
-//  private var query: ZoraAPI.NFTTokensInput
   private var address: String
   private var id: String
   

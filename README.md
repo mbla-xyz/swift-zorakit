@@ -76,7 +76,6 @@ We used the standard Apollo Codegen to generate Schema.swift, but we did have to
 
 ## What's next
 
-- Pagination. This is coming first.
 - Polish the ZoraAPI callsites, normalize a lot of the data model.
 - More helpers to build your own API calls and aggregations.
 - More helpers to build UIKit and SwiftUI apps with ZoraUI

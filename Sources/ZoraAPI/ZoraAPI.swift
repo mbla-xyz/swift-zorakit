@@ -1,7 +1,6 @@
 import Foundation
 import Apollo
 
-// pagination
 // market info1
 // expose raw results while we learn
 
@@ -26,7 +25,7 @@ public class ZoraAPI {
   public var network = NetworkInput(network: .ethereum, chain: .mainnet)
   private(set) lazy var apollo = ApolloClient(url: URL(string: endpoint)!)
   
-  // TODO: understand what you might want to actually init.
+  // TODO: allow config with network, endpoints, and API key.
   public init() {}
   
   public func perform<Query: GraphQLQuery>(query: Query) async throws -> Query.Data? {
@@ -42,28 +41,31 @@ public class ZoraAPI {
     }
   }
   
-  public func collections() async throws -> [NFTCollection]? {
-    let query = CollectionsQuery(networks: [network], where: .init(collectionAddresses: []), pagination: .init(limit: 32), sort: .init(sortKey: .created, sortDirection: .asc), includeFullDetails: false)
-    query.pagination = .init(limit: 200)
+  public func collections(page: PaginationInput = .init(limit: 32)) async throws -> [NFTCollection]? {
+    let query = CollectionsQuery(networks: [network], where: .init(collectionAddresses: []), pagination: page, sort: .init(sortKey: .created, sortDirection: .asc), includeFullDetails: false)
     let result = try await perform(query: query)
     return result?.collections.nodes.map { NFTCollection(from: $0) }
   }
   
   
-  public func tokens(query: TokensQueryInput?) async throws -> [NFT]? {
-    let gqlQuery = TokensQuery(networks: [network], where: query, pagination: .init(limit: 32), sort: .init(sortKey: .minted, sortDirection: .asc), includeFullDetails: true, includeSalesHistory: false)
+  public func tokens(query: TokensQueryInput?, page: PaginationInput = .init(limit: 10)) async throws -> (PageInfo, [NFT]?) {
+    let gqlQuery = TokensQuery(networks: [network], where: query, pagination: page, sort: .init(sortKey: .minted, sortDirection: .asc), includeFullDetails: true, includeSalesHistory: false)
     let result = try await perform(query: gqlQuery)
-    return result?.tokens.nodes.map { NFT(from: $0.token) }
+    let pageInfo = PageInfo(from: result?.tokens.pageInfo)
+    return (
+      pageInfo,
+      result?.tokens.nodes.map { NFT(from: $0.token) }
+    )
   }
   
-  public func tokens(_ input: NFTTokensInput) async throws -> [NFT]? {
+  public func tokens(_ input: NFTTokensInput, page: PaginationInput = .init(limit: 10)) async throws -> (PageInfo, [NFT]?) {
     switch input {
       case .collectionAddress(let collectionAddress):
-        return try await tokens(query: .init(collectionAddresses: [collectionAddress]))
+        return try await tokens(query: .init(collectionAddresses: [collectionAddress]), page: page)
       case .collection(let collection):
-        return try await tokens(query: .init(collectionAddresses: [collection.address]))
+        return try await tokens(query: .init(collectionAddresses: [collection.address]), page: page)
       case .owner(let ownerAddress):
-        return try await tokens(query: .init(ownerAddresses: [ownerAddress]))
+        return try await tokens(query: .init(ownerAddresses: [ownerAddress]), page: page)
     }
   }
   

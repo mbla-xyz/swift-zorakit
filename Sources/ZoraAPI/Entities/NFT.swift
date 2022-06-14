@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct NFT: Identifiable, Hashable {
+public struct NFT: Codable, Identifiable, Hashable {
   public struct Attribute: Codable, Identifiable, Hashable {
     public var id: String { "\(traitType)_\(value)"}
     public var traitType: String
@@ -83,7 +83,7 @@ public struct NFT: Identifiable, Hashable {
   public var owner: String?
   public var name: String?
   public var description: String?
-  @HashableNoop @EquatableNoop public var metadata: JSONScalar?
+//  @HashableNoop @NotCoded @EquatableNoop public var metadata: JSONScalar?
   public var tokenUrl: String?
   public var tokenUrlMimeType: String?
   public var image: Image?
@@ -96,7 +96,7 @@ public struct NFT: Identifiable, Hashable {
     self.owner = tokenData.owner
     self.name = tokenData.name
     self.description = tokenData.description
-    self.metadata = tokenData.metadata
+//    self.metadata = tokenData.metadata
     self.tokenUrl = tokenData.tokenUrl
     self.tokenUrlMimeType = tokenData.tokenUrlMimeType
     
@@ -112,7 +112,7 @@ public struct NFT: Identifiable, Hashable {
     self.owner = tokenNodeData.owner
     self.name = tokenNodeData.name
     self.description = tokenNodeData.description
-    self.metadata = tokenNodeData.metadata
+//    self.metadata = tokenNodeData.metadata
     self.tokenUrl = tokenNodeData.tokenUrl
     self.tokenUrlMimeType = tokenNodeData.tokenUrlMimeType
     
@@ -120,5 +120,12 @@ public struct NFT: Identifiable, Hashable {
     
     self.image = Image(from: tokenNodeData.image)
     
+  }
+  
+  public func printData() {
+    let encoder = JSONEncoder()
+    if let encoded = try? encoder.encode(self) {
+      print(encoded)
+    }
   }
 }
