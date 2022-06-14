@@ -81,5 +81,6 @@ We used the standard Apollo Codegen to generate Schema.swift, but we did have to
 - More helpers to build UIKit and SwiftUI apps with ZoraUI
 - More built-in components for common NFT tasks.
 - Actual SVG support.
+- More support for Zora NFTs and the assorted `content`
 
 
