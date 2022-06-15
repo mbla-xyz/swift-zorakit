@@ -23,7 +23,7 @@ public class ZoraAPI {
   public static let shared = ZoraAPI()
   public var endpoint = "https://api.zora.co/graphql"
   public var network = NetworkInput(network: .ethereum, chain: .mainnet)
-  private(set) lazy var apollo = ApolloClient(url: URL(string: endpoint)!)
+  public private(set) lazy var apollo = ApolloClient(url: URL(string: endpoint)!)
   
   // TODO: allow config with network, endpoints, and API key.
   public init() {}
